@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITLE}} - Ahrefs Blog Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 18px;
+      line-height: 1.7;
+      color: #40464d;
+      background-color: #fff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .ahrefs-article {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    /* Headings */
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      color: #1a1a1a;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      color: #1a1a1a;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: #1a1a1a;
+    }
+
+    h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    /* Paragraphs */
+    p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Links */
+    a {
+      color: #074ADA;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease;
+    }
+
+    a:hover {
+      border-bottom-color: #074ADA;
+    }
+
+    /* Lists */
+    ul, ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    li > ul, li > ol {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Inline code */
+    code {
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.875em;
+      background-color: #f4f4f4;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      color: #1a1a1a;
+    }
+
+    /* Code blocks */
+    pre {
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: #d4d4d4;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Blockquotes */
+    blockquote {
+      border-left: 4px solid #074ADA;
+      margin: 1.5rem 0;
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      color: #5a6068;
+      font-style: normal;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+    }
+
+    blockquote p + p {
+      margin-top: 1rem;
+    }
+
+    /* Images */
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      display: block;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid #e5e5e5;
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f9f9f9;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background-color: #fafafa;
+    }
+
+    /* Horizontal rule */
+    hr {
+      border: none;
+      border-top: 1px solid #e5e5e5;
+      margin: 2.5rem 0;
+    }
+
+    /* Strong and emphasis */
+    strong {
+      font-weight: 600;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    /* Preview banner */
+    .preview-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #074ADA;
+      color: white;
+      text-align: center;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 1000;
+    }
+
+    .preview-banner + .ahrefs-article {
+      padding-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-banner">Preview Mode - Ahrefs Blog Style</div>
+  <article class="ahrefs-article">
+    {{CONTENT}}
+  </article>
+</body>
+</html>
