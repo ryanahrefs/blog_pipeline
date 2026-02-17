@@ -87,3 +87,17 @@ This would enable a `/publish` skill to:
 - Upload images and set featured images
 - Apply categories and tags
 - Schedule or publish posts
+
+### Project Ideas
+
+Ideas to consider for future sessions:
+
+- **Incorporate existing Ahrefs content into outlining.** Run a `site:` search for the target keyword, pull the top X articles, vectorize them somehow, and pull excerpts into the outlining process to ensure consistency with existing content.
+
+- **Deep research report for drafting.** Add a research-style report based on the outline to inform the drafting step. Might be overkill, but could improve depth.
+
+- **AI citation optimization.** Add discrete steps to make parts of the article more citable (re: Patrick's comment on making content that AI systems want to reference).
+
+- **Dedicated title brainstorming step.** Add a step at the end to generate and evaluate multiple title options.
+
+- **In-line editing on draft previews.** Experimented with a Google Docs-style split-pane interface, but might be simpler to just edit markdown directly in VS Code with `<!-- EDIT: ... -->` comment tags that Claude can process.
