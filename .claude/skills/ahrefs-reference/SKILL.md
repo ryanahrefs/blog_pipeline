@@ -73,7 +73,7 @@ Combine all extracted articles into a single reference document.
 
 ## Output
 
-Save to `./reference/[keyword-slug]-ahrefs.md`:
+Save to `./content-pipeline/2-reference/[keyword-slug]-ahrefs.md`:
 
 ```markdown
 # Ahrefs Reference: [Keyword]

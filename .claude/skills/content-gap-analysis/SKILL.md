@@ -117,31 +117,69 @@ For each candidate gap keyword from Step 2:
 
 Before enriching gap keywords, verify your domain doesn't already have dedicated articles for candidate gaps.
 
-**For each candidate gap keyword:**
+#### Load the Blog URL Index
 
-1. **Run a site search:**
-   ```
-   WebSearch: site:[your-domain]/blog/ "[keyword]"
-   ```
-   Example: `site:ahrefs.com/blog "semantic seo"`
+Use the Screaming Frog export at `content-pipeline/2-reference/page_titles_all.csv` for fast local validation:
 
-2. **Evaluate results:**
-   - **Dedicated article found** (keyword in title or URL) → Article exists
-   - **Only tangential mentions** (keyword appears in unrelated articles) → No dedicated article
-   - **No results** → No coverage at all
+```bash
+# Load the CSV (columns: Address, Title 1)
+# Extract URL slugs and titles for matching
+```
 
-3. **Reclassify based on article existence + ranking:**
-   - **Article exists + ranks top 10** → ❌ **EXISTING CONTENT** (exclude, already competing)
-   - **Article exists + ranks outside top 10** → 🔄 **UPDATE OPPORTUNITY** (separate list for refresh workflow)
-   - **No dedicated article + ranks 11-50** → ⚠️ **OPTIMIZATION OPPORTUNITY** (improve existing content)
-   - **No dedicated article + not ranking** → ✅ **TRUE CONTENT GAP** (create new content, high priority)
+The CSV contains all blog URLs and their titles. Use this for instant lookups instead of slow site: searches.
 
-**Why site: search over URL guessing:**
-- Catches non-standard slugs ("what-is-semantic-seo" vs "semantic-seo")
-- Finds articles where keyword is covered but not in URL
-- Single search vs multiple URL checks
+#### Check for New Articles (Optional)
 
-**Batch processing:** Run 10-20 searches in parallel to manage latency.
+To catch articles published since the last crawl, fetch the sitemap:
+
+```bash
+curl -s https://ahrefs.com/blog/sitemap.xml | grep -oP '(?<=<loc>)[^<]+' > /tmp/current_sitemap.txt
+```
+
+Compare against the CSV to identify new URLs not yet in the index.
+
+#### Matching Logic
+
+**For each candidate gap keyword**, check the local index:
+
+1. **URL slug match:** Does any URL contain the keyword as a slug?
+   - `keyword-clustering` → matches `/blog/keyword-clustering/`
+   - `seo silo` → matches `/blog/seo-silo-structure/` (partial match OK)
+
+2. **Title match:** Does any title contain the keyword phrase?
+   - "types of seo" → matches "68 Types of SEO. Did We Miss Any?"
+
+**Matching rules:**
+- Convert keyword to lowercase, replace spaces with hyphens for URL matching
+- Use case-insensitive substring match for titles
+- Partial matches count (e.g., "keyword cluster" matches "keyword-clustering")
+
+#### Classification
+
+Based on match results + ranking data from Step 3:
+
+| Match Found? | Ranking | Classification |
+|--------------|---------|----------------|
+| ✅ Yes | Top 10 | ❌ **EXISTING CONTENT** (exclude) |
+| ✅ Yes | 11-100 | 🔄 **UPDATE OPPORTUNITY** |
+| ❌ No | 11-50 | ⚠️ **OPTIMIZATION OPPORTUNITY** |
+| ❌ No | Not ranking | ✅ **TRUE CONTENT GAP** |
+
+**Example validation code:**
+
+```bash
+# Check if keyword exists in blog index
+keyword="keyword clustering"
+slug=$(echo "$keyword" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
+
+# Search URL column
+grep -i "$slug" content-pipeline/2-reference/page_titles_all.csv
+
+# Search title column
+grep -i "$keyword" content-pipeline/2-reference/page_titles_all.csv
+```
+
+This replaces dozens of slow site: searches with instant local lookups.
 
 ### 4. Enrich Gap Keywords with Traffic Potential
 
@@ -218,9 +256,9 @@ keyword,volume,traffic_potential,difficulty,cpc,priority,source,business_potenti
 | `cpc` | Cost per click in cents (divide by 100 for USD) |
 | `priority` | high / medium / low based on analysis |
 | `source` | Where this keyword came from (content-gap-analysis, manual, etc.) |
-| `business_potential` | 0-3 score (added by /score-business-potential) |
-| `ahrefs_product` | Primary Ahrefs product fit (added by /score-business-potential) |
-| `rank` | Priority rank (added by /score-business-potential) |
+| `business_potential` | 0-3 score (added by /keyword-prioritization) |
+| `ahrefs_product` | Primary Ahrefs product fit (added by /keyword-prioritization) |
+| `rank` | Priority rank (added by /keyword-prioritization) |
 | `selected` | "yes" if keyword has been selected for research, empty otherwise |
 
 ### Append Gap Keywords

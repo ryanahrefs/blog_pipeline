@@ -9,11 +9,11 @@ allowed-tools: Read, Write, WebSearch, WebFetch
 
 Identify factual claims in a draft article that need sources, find authoritative sources to back them up, and add hyperlinks directly into the text. Prioritizes ahrefs.com/blog as the first source.
 
-**Important**: This skill saves a NEW file to `./5-drafts-cited/` rather than modifying the original draft. This preserves the uncited version for easy rollback.
+**Important**: This skill saves a NEW file to `./content-pipeline/6-drafts-cited/` rather than modifying the original draft. This preserves the uncited version for easy rollback.
 
 ## Input
 
-**Draft file path** - Path to the draft file (e.g., `./4-drafts/pinterest-seo.md`)
+**Draft file path** - Path to the draft file (e.g., `./content-pipeline/5-drafts/pinterest-seo.md`)
 
 ---
 
@@ -163,18 +163,18 @@ Pinterest has over [450 million monthly active users](https://newsroom.pinterest
 
 ### Save to New Location
 
-**Do NOT modify the original draft.** Instead, save the cited version to `./5-drafts-cited/`:
+**Do NOT modify the original draft.** Instead, save the cited version to `./content-pipeline/6-drafts-cited/`:
 
 ```
-Input:  ./4-drafts/pinterest-seo.md
-Output: ./5-drafts-cited/pinterest-seo.md
+Input:  ./content-pipeline/5-drafts/pinterest-seo.md
+Output: ./content-pipeline/6-drafts-cited/pinterest-seo.md
 ```
 
 This preserves the original draft for easy rollback if citations need revision.
 
 ### Output File Structure
 
-Save to `./5-drafts-cited/[same-filename].md`:
+Save to `./content-pipeline/6-drafts-cited/[same-filename].md`:
 
 ```markdown
 # [Article Title]
@@ -182,7 +182,7 @@ Save to `./5-drafts-cited/[same-filename].md`:
 **Target Keyword**: [keyword]
 **Word Count**: [count]
 **Status**: Cited Draft
-**Source Draft**: ./4-drafts/[filename].md
+**Source Draft**: ./content-pipeline/5-drafts/[filename].md
 
 ---
 
@@ -215,12 +215,12 @@ Save to `./5-drafts-cited/[same-filename].md`:
 ## Example Usage
 
 ```
-/verify-claims ./4-drafts/pinterest-seo.md
+/verify-claims ./content-pipeline/5-drafts/pinterest-seo.md
 ```
 
-**Output**: `./5-drafts-cited/pinterest-seo.md`
+**Output**: `./content-pipeline/6-drafts-cited/pinterest-seo.md`
 
-To revert: simply use the original from `./4-drafts/`
+To revert: simply use the original from `./content-pipeline/5-drafts/`
 
 ---
 

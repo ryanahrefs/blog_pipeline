@@ -11,7 +11,7 @@ Transform a finished draft into a WordPress-ready document with Ahrefs shortcode
 
 ## Input
 
-**Draft file path** - Path to a cited draft file (e.g., `./5-drafts-cited/pinterest-seo.md`)
+**Draft file path** - Path to a cited draft file (e.g., `./content-pipeline/6-drafts-cited/pinterest-seo.md`)
 
 ## Dependencies
 
@@ -281,8 +281,8 @@ If pandoc is not installed, save as .md with a note that manual conversion is ne
 
 ## Output
 
-1. **Formatted markdown** saved to `7-publish/[slug].md`
-2. **Word document** saved to `7-publish/[slug].docx`
+1. **Formatted markdown** saved to `content-pipeline/8-publish/[slug].md`
+2. **Word document** saved to `content-pipeline/8-publish/[slug].docx`
 
 ---
 
@@ -360,9 +360,9 @@ When adding `[further_reading]`, select 2-4 related articles from the Ahrefs blo
 ## Example Usage
 
 ```
-/format-for-publish ./5-drafts-cited/youtube-seo.md
+/format-for-publish ./content-pipeline/6-drafts-cited/youtube-seo.md
 ```
 
 Creates:
-- `7-publish/youtube-seo.md` (formatted with shortcodes)
-- `7-publish/youtube-seo.docx` (Word document)
+- `content-pipeline/8-publish/youtube-seo.md` (formatted with shortcodes)
+- `content-pipeline/8-publish/youtube-seo.docx` (Word document)

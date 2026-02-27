@@ -19,7 +19,7 @@ Expand a structured outline into a complete article draft, following Ahrefs-styl
 
 ## Style Reference
 
-Before drafting, read `./reference/style-reference.md` to calibrate voice and tone. If no style reference exists, proceed with default guidelines.
+Before drafting, read `./content-pipeline/2-reference/style-reference.md` to calibrate voice and tone. If no style reference exists, proceed with default guidelines.
 
 The style reference provides a gold-standard example of the voice, rhythm, and patterns to emulate. You'll extract a compact Style Card from it in Phase 0.
 
@@ -181,7 +181,7 @@ This workflow prevents quality degradation by writing each section independently
 
 ### Phase 0: Style Calibration
 
-Before writing, read `./reference/style-reference.md` and extract a compact **Style Card**:
+Before writing, read `./content-pipeline/2-reference/style-reference.md` and extract a compact **Style Card**:
 
 #### Extract from the reference:
 
@@ -315,6 +315,7 @@ Each section MUST include:
 - [ ] BLUF in first 1-2 sentences
 - [ ] At least one specific example (number, name, or personal experience)
 - [ ] First-person voice ("I", "We", "I've found that...")
+- [ ] Headers use sentence case (not title case)
 - [ ] Connection to article thesis or previous section
 - [ ] No paragraphs over 3 lines
 
@@ -331,7 +332,7 @@ Each section MUST include:
 
 ## Output
 
-Save the draft to `./4-drafts/[keyword-slug].md`:
+Save the draft to `./content-pipeline/5-drafts/[keyword-slug].md`:
 
 ```markdown
 # [Article Title]
@@ -366,7 +367,7 @@ Save the draft to `./4-drafts/[keyword-slug].md`:
 ## Example Usage
 
 ```
-/draft ./3-outlines-annotated/pinterest-seo.md
+/draft ./content-pipeline/4-outlines-annotated/pinterest-seo.md
 ```
 
 ---
@@ -394,7 +395,8 @@ Before finalizing, verify:
 | Opinions | Clear stance taken, not wishy-washy |
 | Fluff | No throat-clearing, no filler |
 | Paragraphs | Max 3 lines each |
-| Subheadings | Sentence case, under 15 words, one point each |
+| Headers | Sentence case for all H2-H6 (e.g., "What is bounce rate?") |
+| Subheadings | Under 15 words, one point each |
 | Language | No exaggerated words (revolutionary, game-changing) |
 | Ahrefs | References are natural and helpful |
 | Length | Within target word count |

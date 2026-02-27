@@ -255,7 +255,7 @@ Based on gaps, decide how to differentiate:
 
 ## Output
 
-Save to `./1-research/[keyword-slug].md`:
+Save to `./content-pipeline/1-research/[keyword-slug].md`:
 
 ```markdown
 # Research: [Keyword]

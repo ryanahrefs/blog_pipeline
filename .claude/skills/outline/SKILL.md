@@ -94,7 +94,7 @@ Transform a research file into a structured article outline ready for drafting.
 
 ## Output
 
-Save the outline to `./2-outlines/[keyword-slug].md` with this structure:
+Save the outline to `./content-pipeline/3-outlines/[keyword-slug].md` with this structure:
 
 ```markdown
 # [Article Title]
@@ -151,5 +151,5 @@ Save the outline to `./2-outlines/[keyword-slug].md` with this structure:
 ## Example Usage
 
 ```
-/outline ./1-research/keyword-research.md
+/outline ./content-pipeline/1-research/keyword-research.md
 ```

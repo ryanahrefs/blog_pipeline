@@ -35,13 +35,14 @@ Shows available keywords from `keyword-ideas.csv` (same as `/research` with no a
 
 | Step | Skill | Input | Output Folder |
 |------|-------|-------|---------------|
-| 1 | `/research` | keyword | `1-research/` |
-| 2 | `/outline` | research file | `2-outlines/` |
-| 3 | `/ahrefs-mentions` | outline file | `3-outlines-annotated/` |
-| 4 | `/draft` | annotated outline | `4-drafts/` |
-| 5 | `/verify-claims` | draft file | `5-drafts-cited/` |
-| 6 | `/preview` | cited draft | `6-preview/` |
-| 7 | `/format-for-publish` | cited draft | `7-publish/` |
+| 1 | `/research` | keyword | `content-pipeline/1-research/` |
+| 2 | `/ahrefs-reference` | keyword | `content-pipeline/2-reference/` |
+| 3 | `/outline` | research file | `content-pipeline/3-outlines/` |
+| 4 | `/ahrefs-mentions` | outline file | `content-pipeline/4-outlines-annotated/` |
+| 5 | `/draft` | annotated outline | `content-pipeline/5-drafts/` |
+| 6 | `/verify-claims` | draft file | `content-pipeline/6-drafts-cited/` |
+| 7 | `/preview` | cited draft | `content-pipeline/7-preview/` |
+| 8 | `/format-for-publish` | cited draft | `content-pipeline/8-publish/` |
 
 ---
 
@@ -55,7 +56,7 @@ Gather keyword intelligence and analyze top-ranking content.
 ```
 
 **Input:** Keyword (from argument or selected from CSV)
-**Output:** `./1-research/[keyword-slug].md`
+**Output:** `./content-pipeline/1-research/[keyword-slug].md`
 
 **What it does:**
 - Get keyword metrics (volume, difficulty, traffic potential)
@@ -66,15 +67,33 @@ Gather keyword intelligence and analyze top-ranking content.
 
 ---
 
-### Step 2: Outline
+### Step 2: Ahrefs Reference
+Pull existing Ahrefs blog articles as style and content reference.
+
+```
+/ahrefs-reference [keyword]
+```
+
+**Input:** Keyword (same as Step 1)
+**Output:** `./content-pipeline/2-reference/[keyword-slug]-ahrefs.md`
+
+**What it does:**
+- Search ahrefs.com/blog for related articles
+- Extract full content from up to 3 relevant articles
+- Compile into a reference document for voice/style calibration
+- Provides examples of Ahrefs' editorial approach
+
+---
+
+### Step 3: Outline
 Create a structured article outline based on research.
 
 ```
-/outline ./1-research/[keyword-slug].md
+/outline ./content-pipeline/1-research/[keyword-slug].md
 ```
 
-**Input:** Research file from Step 1
-**Output:** `./2-outlines/[keyword-slug].md`
+**Input:** Research file from Step 1 (also reads reference from Step 2)
+**Output:** `./content-pipeline/3-outlines/[keyword-slug].md`
 
 **What it does:**
 - Create H2/H3 structure based on competitor analysis
@@ -84,15 +103,15 @@ Create a structured article outline based on research.
 
 ---
 
-### Step 3: Ahrefs Mentions
+### Step 4: Ahrefs Mentions
 Annotate outline with natural Ahrefs product mentions.
 
 ```
-/ahrefs-mentions ./2-outlines/[keyword-slug].md
+/ahrefs-mentions ./content-pipeline/3-outlines/[keyword-slug].md
 ```
 
-**Input:** Outline file from Step 2
-**Output:** `./3-outlines-annotated/[keyword-slug].md`
+**Input:** Outline file from Step 3
+**Output:** `./content-pipeline/4-outlines-annotated/[keyword-slug].md`
 
 **What it does:**
 - Identify sections where Ahrefs tools add value
@@ -102,15 +121,15 @@ Annotate outline with natural Ahrefs product mentions.
 
 ---
 
-### Step 4: Draft
+### Step 5: Draft
 Expand the annotated outline into a full article.
 
 ```
-/draft ./3-outlines-annotated/[keyword-slug].md
+/draft ./content-pipeline/4-outlines-annotated/[keyword-slug].md
 ```
 
-**Input:** Annotated outline from Step 3
-**Output:** `./4-drafts/[keyword-slug].md`
+**Input:** Annotated outline from Step 4 (also reads reference from Step 2)
+**Output:** `./content-pipeline/5-drafts/[keyword-slug].md`
 
 **What it does:**
 - Write full prose for each section
@@ -120,15 +139,15 @@ Expand the annotated outline into a full article.
 
 ---
 
-### Step 5: Verify Claims
+### Step 6: Verify Claims
 Find and add source links to factual claims.
 
 ```
-/verify-claims ./4-drafts/[keyword-slug].md
+/verify-claims ./content-pipeline/5-drafts/[keyword-slug].md
 ```
 
-**Input:** Draft file from Step 4
-**Output:** `./5-drafts-cited/[keyword-slug].md`
+**Input:** Draft file from Step 5
+**Output:** `./content-pipeline/6-drafts-cited/[keyword-slug].md`
 
 **What it does:**
 - Identify factual claims needing sources
@@ -138,15 +157,15 @@ Find and add source links to factual claims.
 
 ---
 
-### Step 6: Preview
+### Step 7: Preview
 Generate an Ahrefs-styled HTML preview.
 
 ```
-/preview ./5-drafts-cited/[keyword-slug].md
+/preview ./content-pipeline/6-drafts-cited/[keyword-slug].md
 ```
 
-**Input:** Cited draft from Step 5
-**Output:** `./6-preview/[keyword-slug].html`
+**Input:** Cited draft from Step 6
+**Output:** `./content-pipeline/7-preview/[keyword-slug].html`
 
 **What it does:**
 - Convert markdown to styled HTML
@@ -155,17 +174,17 @@ Generate an Ahrefs-styled HTML preview.
 
 ---
 
-### Step 7: Format for Publish
+### Step 8: Format for Publish
 Apply WordPress shortcodes and export to .docx.
 
 ```
-/format-for-publish ./5-drafts-cited/[keyword-slug].md
+/format-for-publish ./content-pipeline/6-drafts-cited/[keyword-slug].md
 ```
 
-**Input:** Cited draft from Step 5
+**Input:** Cited draft from Step 6
 **Output:**
-- `./7-publish/[keyword-slug].md` (with shortcodes)
-- `./7-publish/[keyword-slug].docx` (Word document)
+- `./content-pipeline/8-publish/[keyword-slug].md` (with shortcodes)
+- `./content-pipeline/8-publish/[keyword-slug].docx` (Word document)
 
 **What it does:**
 - Convert callouts to WordPress shortcodes
@@ -184,25 +203,28 @@ When running the full pipeline:
 
 ```
 Step 1: /research "[keyword]"
-   → Verify: ./1-research/[slug].md exists
+   → Verify: ./content-pipeline/1-research/[slug].md exists
 
-Step 2: /outline ./1-research/[slug].md
-   → Verify: ./2-outlines/[slug].md exists
+Step 2: /ahrefs-reference "[keyword]"
+   → Verify: ./content-pipeline/2-reference/[slug]-ahrefs.md exists
 
-Step 3: /ahrefs-mentions ./2-outlines/[slug].md
-   → Verify: ./3-outlines-annotated/[slug].md exists
+Step 3: /outline ./content-pipeline/1-research/[slug].md
+   → Verify: ./content-pipeline/3-outlines/[slug].md exists
 
-Step 4: /draft ./3-outlines-annotated/[slug].md
-   → Verify: ./4-drafts/[slug].md exists
+Step 4: /ahrefs-mentions ./content-pipeline/3-outlines/[slug].md
+   → Verify: ./content-pipeline/4-outlines-annotated/[slug].md exists
 
-Step 5: /verify-claims ./4-drafts/[slug].md
-   → Verify: ./5-drafts-cited/[slug].md exists
+Step 5: /draft ./content-pipeline/4-outlines-annotated/[slug].md
+   → Verify: ./content-pipeline/5-drafts/[slug].md exists
 
-Step 6: /preview ./5-drafts-cited/[slug].md
-   → Verify: ./6-preview/[slug].html exists
+Step 6: /verify-claims ./content-pipeline/5-drafts/[slug].md
+   → Verify: ./content-pipeline/6-drafts-cited/[slug].md exists
 
-Step 7: /format-for-publish ./5-drafts-cited/[slug].md
-   → Verify: ./7-publish/[slug].md and .docx exist
+Step 7: /preview ./content-pipeline/6-drafts-cited/[slug].md
+   → Verify: ./content-pipeline/7-preview/[slug].html exists
+
+Step 8: /format-for-publish ./content-pipeline/6-drafts-cited/[slug].md
+   → Verify: ./content-pipeline/8-publish/[slug].md and .docx exist
 ```
 
 4. **Report completion** with all file locations
@@ -219,12 +241,13 @@ To resume from a specific step (if earlier outputs exist):
 
 Valid `--from` values:
 - `research` (Step 1 - default, full pipeline)
-- `outline` (Step 2)
-- `ahrefs-mentions` (Step 3)
-- `draft` (Step 4)
-- `verify-claims` (Step 5)
-- `preview` (Step 6)
-- `format-for-publish` (Step 7)
+- `ahrefs-reference` (Step 2)
+- `outline` (Step 3)
+- `ahrefs-mentions` (Step 4)
+- `draft` (Step 5)
+- `verify-claims` (Step 6)
+- `preview` (Step 7)
+- `format-for-publish` (Step 8)
 
 Before resuming, verify the required input file exists from the previous step.
 
@@ -239,15 +262,16 @@ After a complete pipeline run:
 
 | Step | Output |
 |------|--------|
-| 1. Research | ./1-research/[slug].md |
-| 2. Outline | ./2-outlines/[slug].md |
-| 3. Annotated | ./3-outlines-annotated/[slug].md |
-| 4. Draft | ./4-drafts/[slug].md |
-| 5. Cited | ./5-drafts-cited/[slug].md |
-| 6. Preview | ./6-preview/[slug].html |
-| 7. Publish | ./7-publish/[slug].md, .docx |
+| 1. Research | ./content-pipeline/1-research/[slug].md |
+| 2. Reference | ./content-pipeline/2-reference/[slug]-ahrefs.md |
+| 3. Outline | ./content-pipeline/3-outlines/[slug].md |
+| 4. Annotated | ./content-pipeline/4-outlines-annotated/[slug].md |
+| 5. Draft | ./content-pipeline/5-drafts/[slug].md |
+| 6. Cited | ./content-pipeline/6-drafts-cited/[slug].md |
+| 7. Preview | ./content-pipeline/7-preview/[slug].html |
+| 8. Publish | ./content-pipeline/8-publish/[slug].md, .docx |
 
-Ready for WordPress upload: ./7-publish/[slug].docx
+Ready for WordPress upload: ./content-pipeline/8-publish/[slug].docx
 ```
 
 ---

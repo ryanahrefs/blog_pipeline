@@ -11,7 +11,7 @@ Analyze an article outline and identify opportunities to naturally mention Ahref
 
 ## Input
 
-- `$ARGUMENTS`: Path to an outline file (e.g., `./2-outlines/keyword-research.md`)
+- `$ARGUMENTS`: Path to an outline file (e.g., `./content-pipeline/3-outlines/keyword-research.md`)
 
 ## Philosophy
 
@@ -316,7 +316,7 @@ Use this detailed reference to match products to outline topics. Understanding e
    - Where in the section (intro, example, tip)
    - A draft sentence showing natural integration
 4. **Add a summary** at the top listing all suggested mentions
-5. **Write the annotated outline** to `3-outlines-annotated/[slug].md` (preserves original)
+5. **Write the annotated outline** to `content-pipeline/4-outlines-annotated/[slug].md` (preserves original)
 
 ## Output Format
 
@@ -348,13 +348,13 @@ At the top of the file, add a summary:
 
 ## Output
 
-- Annotated outline saved to `3-outlines-annotated/[slug].md`
+- Annotated outline saved to `content-pipeline/4-outlines-annotated/[slug].md`
 - Original outline in `outlines/` remains unchanged
 
 ## Example
 
 ```
-/ahrefs-mentions ./2-outlines/link-building.md
+/ahrefs-mentions ./content-pipeline/3-outlines/link-building.md
 ```
 
-Reads the outline, identifies 2-3 natural spots to mention relevant Ahrefs tools, and saves the annotated version to `3-outlines-annotated/link-building.md`.
+Reads the outline, identifies 2-3 natural spots to mention relevant Ahrefs tools, and saves the annotated version to `content-pipeline/4-outlines-annotated/link-building.md`.

@@ -11,7 +11,7 @@ Generate an Ahrefs blog-styled HTML preview from a markdown draft.
 
 ## Input
 
-- `$ARGUMENTS`: Path to a markdown draft file (e.g., `./5-drafts-cited/pinterest-seo.md`)
+- `$ARGUMENTS`: Path to a markdown draft file (e.g., `./content-pipeline/6-drafts-cited/pinterest-seo.md`)
 
 ## Workflow
 
@@ -31,18 +31,18 @@ Generate an Ahrefs blog-styled HTML preview from a markdown draft.
 4. **Read the template** from `templates/ahrefs-preview.html`
 5. **Insert content** by replacing `{{TITLE}}` and `{{CONTENT}}` placeholders
 6. **Derive output filename** from input (e.g., `pinterest-seo.md` → `pinterest-seo.html`)
-7. **Write HTML** to `6-preview/[slug].html`
-8. **Open in browser**: Run `open 6-preview/[slug].html`
+7. **Write HTML** to `content-pipeline/7-preview/[slug].html`
+8. **Open in browser**: Run `open content-pipeline/7-preview/[slug].html`
 
 ## Output
 
-- HTML file at `6-preview/[slug].html`
+- HTML file at `content-pipeline/7-preview/[slug].html`
 - Opens automatically in the default browser
 
 ## Example
 
 ```
-/preview ./5-drafts-cited/pinterest-seo.md
+/preview ./content-pipeline/6-drafts-cited/pinterest-seo.md
 ```
 
-Creates `6-preview/pinterest-seo.html` and opens it in the browser.
+Creates `content-pipeline/7-preview/pinterest-seo.html` and opens it in the browser.

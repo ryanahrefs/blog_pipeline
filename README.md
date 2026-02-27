@@ -68,8 +68,8 @@ claude
 # Find content gaps vs competitors
 /content-gap-analysis yourdomain.com
 
-# Score keywords by business relevance (0-3)
-/score-business-potential
+# Prioritize keywords by blog fit + business relevance
+/keyword-prioritization
 ```
 
 ## Project Structure
@@ -183,7 +183,7 @@ The `/draft` skill reads `reference/style-reference.md` to extract voice pattern
 | `/preview` | HTML preview | cited draft |
 | `/format-for-publish` | WordPress + .docx | cited draft |
 | `/content-gap-analysis` | Find keyword gaps | domain |
-| `/score-business-potential` | Rate keyword fit | (uses CSV) |
+| `/keyword-prioritization` | Rate keyword fit | (uses CSV) |
 
 ## Example Output
 

@@ -1,53 +1,245 @@
-keyword,volume,traffic_potential,difficulty,cpc,priority,source,business_potential,ahrefs_product,rank,selected
-magento seo,4500,5400,6,800,high,content-gap-analysis,2,Site Audit,1
-seo for healthcare,1900,7100,18,1500,high,content-gap-analysis,2,Site Explorer,2
-enterprise seo,2100,7000,23,700,high,content-gap-analysis,2,Site Audit,3
-seo for dentist,1400,5700,17,2000,high,content-gap-analysis,2,Site Explorer,4
-seo subdomain,1800,3900,11,60,high,content-gap-analysis,2,Site Audit,5
-seo for product pages,1000,3000,31,50,high,content-gap-analysis,2,Site Audit,6
-seo automation tools,1900,9500,41,400,high,content-gap-analysis,2,Site Audit,7
-orphan pages,500,1100,26,170,high,content-gap-analysis,3,Site Audit,8
-mobile rank tracker,1800,4500,53,300,medium,content-gap-analysis,3,Rank Tracker,9
-keyword mapping,1600,1800,35,400,medium,content-gap-analysis,3,Keywords Explorer,10
-share of search,1500,900,2,180,medium,content-gap-analysis,3,Rank Tracker,11
-keyword gap,1300,6300,26,350,high,content-gap-analysis,3,Site Explorer,12
-seo chrome extensions,1200,2800,40,200,medium,content-gap-analysis,3,Ahrefs SEO Toolbar,13,yes
-focus keywords,1000,6000,11,170,high,content-gap-analysis,3,Keywords Explorer,14
-white label seo,5600,8100,39,1700,high,content-gap-analysis,2,Reports Builder,15
-mobile seo,4200,7500,21,50,high,content-gap-analysis,2,Site Audit,16
-youtube seo,4000,,,,,manual,2,Keywords Explorer,17
-search engine positioning,3400,2700,5,400,high,content-gap-analysis,2,Rank Tracker,18
-semantic seo,3300,2300,43,300,medium,content-gap-analysis,2,Keywords Explorer,19
-international seo,2900,5500,37,250,high,content-gap-analysis,2,Keywords Explorer,20
-serp location changer,1300,6200,45,1200,medium,content-gap-analysis,2,Ahrefs SEO Toolbar,21
-programmatic seo,2000,1000,14,160,medium,content-gap-analysis,2,Keywords Explorer,22
-seo forecast,1900,2700,8,50,high,content-gap-analysis,2,Rank Tracker,23
-structured data seo,1900,8900,42,350,high,content-gap-analysis,2,Site Audit,24
-what is aeo,1600,1800,24,190,medium,content-gap-analysis,2,Brand Radar,25
-pagination seo,1700,1100,19,90,medium,content-gap-analysis,2,Site Audit,26
-amp seo,1500,1900,15,120,medium,content-gap-analysis,2,Site Audit,27
-seo inbound marketing,1300,1500,26,25,medium,content-gap-analysis,1,Keywords Explorer,28
-franchise seo,1400,2900,3,800,high,content-gap-analysis,2,Site Explorer,29
-crawl budget,1300,1100,53,70,medium,content-gap-analysis,2,Site Audit,30
-seo example,1400,5200,50,90,medium,content-gap-analysis,2,Site Explorer,31
-h1 tags seo,1100,3400,8,70,high,content-gap-analysis,2,Site Audit,32
-single page seo,1100,1900,14,250,medium,content-gap-analysis,2,Site Audit,33
-h1 length,1000,700,24,,medium,content-gap-analysis,2,Site Audit,34
-cdn seo,1000,700,13,900,medium,content-gap-analysis,2,Site Audit,35
-pdf seo,900,900,3,250,medium,content-gap-analysis,2,Site Audit,36
-kgr keywords,700,900,2,,medium,content-gap-analysis,2,Keywords Explorer,37
-website indexing,700,1600,45,120,medium,content-gap-analysis,2,Site Audit,38
-dofollow nofollow,600,600,12,90,medium,content-gap-analysis,2,Site Explorer,39
-https seo,1900,800,24,160,medium,content-gap-analysis,2,Site Audit,40
-htaccess 301,500,1200,11,20,medium,content-gap-analysis,2,Site Audit,41
-pagination rel next prev,250,1100,3,,medium,content-gap-analysis,2,Site Audit,42
-submit website to search engines,,,,,medium,manual,2,Site Audit,43
-seo website design,,,,,medium,manual,2,Site Audit,44
-query fan out,,,,,medium,manual,2,Keywords Explorer,45
-reputation management companies,2200,47000,4,1200,high,content-gap-analysis,1,Brand Radar,46
-conversion rate optimization agency,2200,2700,25,25,high,content-gap-analysis,1,Web Analytics,47
-seo infographics,1600,1600,3,200,medium,content-gap-analysis,1,Content Explorer,48
-pinterest seo,1200,,,,,manual,1,Keywords Explorer,49
-seo lead generation software,1000,800,12,600,medium,content-gap-analysis,1,Site Explorer,50
-seo audit pricing,700,700,3,300,medium,content-gap-analysis,1,Site Audit,51
-best seo podcasts,,,,,medium,manual,1,Content Explorer,52
+keyword,volume,traffic_potential,difficulty,cpc,priority,source,blog_fit,business_potential,ahrefs_product,rank,selected
+serp tracking,2500,26000,79,350,high,extra-keywords,no,,,,,
+daily rank tracking,2600,1100,65,1500,medium,extra-keywords,yes,3,Rank Tracker,1,yes
+share of voice seo,1900,700,13,250,high,extra-keywords,yes,3,Rank Tracker,2,yes
+mobile rank tracker,1800,4500,53,300,medium,content-gap-analysis,yes,3,Rank Tracker,3,
+keyword mapping,1600,1800,35,400,medium,content-gap-analysis,yes,3,Keywords Explorer,4,
+share of search,1500,900,2,180,medium,content-gap-analysis,yes,3,Rank Tracker,5,
+keyword gap,1300,6300,26,350,high,content-gap-analysis,yes,3,Site Explorer,6,yes
+seo chrome extensions,1200,2800,40,200,medium,content-gap-analysis,yes,3,Ahrefs SEO Toolbar,7,yes
+ppc keyword research,1100,247000,69,400,high,extra-keywords,yes,3,Keywords Explorer,8,
+focus keywords,1000,6000,11,170,high,content-gap-analysis,yes,3,Keywords Explorer,9,
+keyword search volume,2800,17000,88,160,high,content-gap-analysis,yes,3,Keywords Explorer,10,
+buyer intent keywords,800,800,1,500,high,extra-keywords,yes,3,Keywords Explorer,11,
+internal link audit,700,900,4,400,high,extra-keywords,yes,3,Site Audit,12,
+low hanging fruit seo,350,400,6,350,high,extra-keywords,yes,3,Keywords Explorer,13,
+local seo audit,2000,700,7,500,high,extra-keywords,yes,3,Site Audit,14,
+seo potential,1300,500,4,700,high,extra-keywords,yes,3,Keywords Explorer,15,
+keyword opportunities,1600,250,81,300,low,extra-keywords,yes,3,Keywords Explorer,16,
+brand monitoring,3600,900,13,600,high,extra-keywords,yes,3,Brand Radar,17,
+answer engine optimization,3200,1600,42,400,high,content-gap-analysis,yes,3,Brand Radar,18,
+website traffic analysis,2900,79000,57,350,high,content-gap-analysis,yes,3,Web Analytics,19,
+competitor keyword analysis,4300,247000,47,450,high,content-gap-analysis,yes,3,Site Explorer,20,
+find competitors,1600,7500,28,450,medium,content-gap-analysis,yes,3,Site Explorer,21,
+most searched for keywords,1200,175000,65,,medium,content-gap-analysis,yes,3,Keywords Explorer,22,
+serp feature increase,150,20,2,,medium,extra-keywords,yes,3,Rank Tracker,23,
+orphan pages,500,1100,26,170,high,content-gap-analysis,yes,3,Site Audit,24,yes
+white label seo,5600,8100,39,1700,high,content-gap-analysis,yes,2,Reports Builder,25,
+seo strategy,13000,606000,71,40,high,extra-keywords,yes,2,Site Explorer,26,
+content strategy,9200,2100,48,180,high,extra-keywords,yes,2,Content Explorer,27,
+content marketing strategy,8500,7000,53,190,high,extra-keywords,yes,2,Content Explorer,28,
+google discover,7100,3100,53,190,medium,extra-keywords,yes,2,Content Explorer,29,
+thought leadership,7400,1200,18,130,high,extra-keywords,yes,2,Content Explorer,30,
+types of marketing,5900,7300,36,35,high,extra-keywords,yes,0,,31,
+seo management,5500,606000,77,700,high,extra-keywords,yes,2,Site Explorer,32,
+google search operators,4800,268000,71,150,high,content-gap-analysis,yes,2,Site Explorer,33,
+website optimization,4600,2500,62,400,medium,extra-keywords,yes,2,Site Audit,34,
+magento seo,4500,5400,6,800,high,content-gap-analysis,yes,2,Site Audit,35,
+event marketing,4200,3100,22,300,high,extra-keywords,yes,0,,36,
+mobile seo,4200,7500,21,50,high,content-gap-analysis,yes,2,Site Audit,37,
+ecommerce marketing,4000,3600,22,70,high,extra-keywords,yes,1,Content Explorer,38,
+youtube seo,4000,,,,,manual,yes,2,Keywords Explorer,39,
+seo ai,3500,6100,79,350,high,extra-keywords,yes,2,Keywords Explorer,40,
+content marketer,3500,450,10,250,high,extra-keywords,yes,1,Content Explorer,41,
+search engine positioning,3400,2700,5,400,high,content-gap-analysis,yes,2,Rank Tracker,42,
+thought leader,3300,800,24,130,high,extra-keywords,yes,1,Content Explorer,43,
+youtube promotion,3300,26000,56,350,medium,extra-keywords,yes,1,Content Explorer,44,
+semantic seo,3300,2300,43,300,medium,content-gap-analysis,yes,2,Keywords Explorer,45,
+international seo,2900,5500,37,250,high,content-gap-analysis,yes,2,Keywords Explorer,46,
+automotive seo,2900,1400,1,500,high,extra-keywords,yes,2,Site Explorer,47,
+linkedin marketing,2900,11000,76,600,high,extra-keywords,yes,1,Content Explorer,48,
+seo resources,2800,1700,56,350,medium,extra-keywords,yes,2,Site Explorer,49,
+ai advertising,2700,1800,48,120,high,extra-keywords,yes,0,,50,
+restaurant seo,2400,1400,7,500,high,extra-keywords,yes,2,Site Explorer,51,
+brand activation,2400,900,8,300,high,extra-keywords,yes,0,,52,
+seo proposal,2300,1200,2,350,high,extra-keywords,yes,1,Site Explorer,53,
+seo quiz,2200,1700,1,350,high,content-gap-analysis,yes,2,Keywords Explorer,54,
+seo traffic,2200,700,22,140,high,extra-keywords,yes,2,Web Analytics,55,
+enterprise seo,2100,7000,23,700,high,content-gap-analysis,yes,2,Site Audit,56,
+digital pr,2000,2100,34,700,high,extra-keywords,yes,2,Content Explorer,57,
+image seo,2000,8000,48,140,high,extra-keywords,yes,2,Site Audit,58,
+programmatic seo,2000,1000,14,160,medium,content-gap-analysis,yes,2,Keywords Explorer,59,
+page authority,2000,5100,48,250,medium,content-gap-analysis,yes,2,Site Explorer,60,
+seo for healthcare,1900,7100,18,1500,high,content-gap-analysis,yes,2,Site Explorer,61,
+saas content marketing,1900,1600,9,190,high,extra-keywords,yes,2,Content Explorer,62,
+structured data seo,1900,8900,42,350,high,content-gap-analysis,yes,2,Site Audit,63,
+seo forecast,1900,2700,8,50,high,content-gap-analysis,yes,2,Rank Tracker,64,
+seo examples,1900,5000,11,70,high,extra-keywords,yes,2,Site Explorer,65,
+https seo,1900,800,24,160,medium,content-gap-analysis,yes,2,Site Audit,66,
+google trends api,1900,1000,34,170,high,extra-keywords,yes,1,Keywords Explorer,67,
+marketing team,1800,500,12,800,high,extra-keywords,yes,0,,68,
+seo subdomain,1800,3900,11,60,high,content-gap-analysis,yes,2,Site Audit,69,
+seo principles,1800,556000,12,35,high,extra-keywords,yes,2,Site Explorer,70,
+lsi keywords,1800,2900,48,200,medium,content-gap-analysis,yes,2,Keywords Explorer,71,
+pagination seo,1700,1100,19,90,medium,content-gap-analysis,yes,2,Site Audit,72,
+website content,1700,1100,22,250,high,extra-keywords,yes,1,Content Explorer,73,
+ai and seo,1600,4700,58,500,medium,extra-keywords,yes,2,Keywords Explorer,74,
+what is aeo,1600,1800,24,190,medium,content-gap-analysis,yes,2,Brand Radar,75,
+seo infographics,1600,1600,3,200,medium,content-gap-analysis,yes,1,Content Explorer,76,
+amp seo,1500,1900,15,120,medium,content-gap-analysis,yes,2,Site Audit,77,
+paid social,1500,2100,20,45,high,extra-keywords,yes,0,,78,
+linkedin seo,1400,1200,14,200,high,extra-keywords,yes,2,Keywords Explorer,79,
+website redesign seo,1400,700,1,600,high,extra-keywords,yes,2,Site Audit,80,
+seo example,1400,5200,50,90,medium,content-gap-analysis,yes,2,Site Explorer,81,
+seo for dentist,1400,5700,17,2000,high,content-gap-analysis,yes,2,Site Explorer,82,
+franchise seo,1400,2900,3,800,high,content-gap-analysis,yes,2,Site Explorer,83,
+seo for photographers,1400,600,2,300,high,extra-keywords,yes,2,Site Explorer,84,
+types of ai models,1400,2400,46,70,high,extra-keywords,yes,0,,85,
+do nofollow links help seo,1300,1100,3,100,high,extra-keywords,yes,2,Site Explorer,86,
+crawl budget,1300,1100,53,70,medium,content-gap-analysis,yes,2,Site Audit,87,
+seo inbound marketing,1300,1500,26,25,medium,content-gap-analysis,yes,1,Keywords Explorer,88,
+serp location changer,1300,6200,45,1200,medium,content-gap-analysis,yes,2,Ahrefs SEO Toolbar,89,
+seo pr,1200,250,5,450,high,extra-keywords,yes,2,Content Explorer,90,
+pinterest seo,1200,,,,,manual,yes,1,Keywords Explorer,91,
+seo template,1200,3000,4,350,high,extra-keywords,yes,2,Site Audit,92,
+ppc certification,1200,500,13,200,high,extra-keywords,yes,1,Keywords Explorer,93,
+how much do content creators make,1200,1000,5,4,high,extra-keywords,yes,0,,94,
+best llms,1100,7200,1,180,high,extra-keywords,yes,0,,95,
+transcreation,1100,700,5,3,high,extra-keywords,yes,0,,96,
+h1 tags seo,1100,3400,8,70,high,content-gap-analysis,yes,2,Site Audit,97,
+single page seo,1100,1900,14,250,medium,content-gap-analysis,yes,2,Site Audit,98,
+seo finance,1100,32000,12,700,high,extra-keywords,yes,2,Site Explorer,99,
+seo acronyms,1100,1000,1,8,high,extra-keywords,yes,1,Keywords Explorer,100,
+search engine visibility,1100,1200,48,300,medium,content-gap-analysis,yes,2,Rank Tracker,101,
+website content writing,1100,2500,30,250,high,extra-keywords,yes,1,Content Explorer,102,
+how to analyze data,1100,1600,31,50,high,extra-keywords,yes,0,,103,
+long form content,1100,100,10,35,medium,extra-keywords,yes,1,Content Explorer,104,
+seo certifications,1000,69000,46,250,high,extra-keywords,yes,1,Keywords Explorer,105,
+seo for product pages,1000,3000,31,50,high,content-gap-analysis,yes,2,Site Audit,106,
+content localization,1000,900,3,180,high,extra-keywords,yes,1,Keywords Explorer,107,
+content production,1000,350,2,160,high,extra-keywords,yes,1,Content Explorer,108,
+inhouse seo,1000,500,9,450,high,extra-keywords,yes,2,Site Explorer,109,
+h1 length,1000,700,24,,medium,content-gap-analysis,yes,2,Site Audit,110,
+website localization,1000,350,6,400,high,extra-keywords,yes,1,Keywords Explorer,111,
+cdn seo,1000,700,13,900,medium,content-gap-analysis,yes,2,Site Audit,112,
+ethical seo,1000,800,2,700,high,extra-keywords,yes,2,Site Explorer,113,
+ecommerce seo checklist,1000,500,8,70,high,extra-keywords,yes,2,Site Audit,114,
+affiliate marketing programs for beginners,1000,3200,36,110,high,extra-keywords,yes,1,Content Explorer,115,
+enterprise seo dashboard,1000,350,4,,high,extra-keywords,no,,,,
+what makes a good website,900,300,6,50,high,extra-keywords,yes,1,Site Audit,116,
+unique content,900,200,2,40,high,extra-keywords,yes,1,Content Explorer,117,
+pdf seo,900,900,3,250,medium,content-gap-analysis,yes,2,Site Audit,118,
+zero click searches,900,150,63,100,low,extra-keywords,yes,2,Keywords Explorer,119,
+holiday marketing,900,200,6,45,high,extra-keywords,yes,0,,120,
+fintech seo,900,500,0,400,high,extra-keywords,yes,2,Site Explorer,121,
+seo success,900,1800,60,350,medium,extra-keywords,yes,2,Site Explorer,122,
+brand asset management,900,450,2,300,high,extra-keywords,yes,0,,123,
+content management system examples,900,1800,29,80,high,extra-keywords,yes,0,,124,
+is digital marketing legit,900,100,0,400,medium,extra-keywords,yes,0,,125,
+increase brand awareness,800,500,31,300,high,extra-keywords,yes,1,Brand Radar,126,
+seo keyphrase,800,6300,11,250,high,extra-keywords,yes,2,Keywords Explorer,127,
+marketing campaign template,800,450,12,350,high,extra-keywords,yes,0,,128,
+content marketing analytics,800,150,7,350,high,extra-keywords,yes,2,Web Analytics,129,
+marketing asset management,800,50,0,250,high,extra-keywords,yes,0,,130,
+seo placement,700,561000,13,500,high,extra-keywords,yes,2,Keywords Explorer,131,
+machine learning seo,700,250,49,80,medium,extra-keywords,yes,2,Keywords Explorer,132,
+kgr keywords,700,900,2,,medium,content-gap-analysis,yes,2,Keywords Explorer,133,
+website indexing,700,1600,45,120,medium,content-gap-analysis,yes,2,Site Audit,134,
+brand bidding,700,500,2,800,high,extra-keywords,yes,2,Site Explorer,135,
+python for seo,700,450,9,60,high,extra-keywords,yes,2,Site Explorer,136,
+seo analyst,700,200,0,300,high,extra-keywords,yes,1,Site Explorer,137,
+seo maintenance,700,100,8,300,medium,extra-keywords,yes,2,Site Audit,138,
+new social media platforms,700,3100,43,130,medium,content-gap-analysis,yes,0,,139,
+thought leadership content,600,1200,14,200,high,extra-keywords,yes,1,Content Explorer,140,
+content marketing strategist,600,1200,6,190,high,extra-keywords,yes,1,Content Explorer,141,
+dofollow nofollow,600,600,12,90,medium,content-gap-analysis,yes,2,Site Explorer,142,
+content scaling,600,250,5,160,high,extra-keywords,yes,1,Content Explorer,143,
+seo data science,600,350,34,450,high,extra-keywords,yes,2,Site Explorer,144,
+quality content,600,350,67,20,medium,extra-keywords,yes,1,Content Explorer,145,
+keyword relevance,600,300,3,120,high,extra-keywords,yes,2,Keywords Explorer,146,
+python seo,500,700,23,60,high,extra-keywords,yes,2,Site Explorer,147,
+enterprise seo roi,500,450,4,,high,extra-keywords,yes,2,Site Explorer,148,
+brand awareness for seo,500,700,5,,high,extra-keywords,yes,2,Brand Radar,149,
+how to do seo on your own,500,3000,11,200,high,extra-keywords,yes,2,Site Explorer,150,
+ppc spying,500,250,6,900,high,extra-keywords,yes,2,Site Explorer,151,
+htaccess 301,500,1200,11,20,medium,content-gap-analysis,yes,2,Site Audit,152,
+nextjs seo,500,500,20,35,high,extra-keywords,yes,2,Site Audit,153,
+seo press releases,500,1900,6,400,high,extra-keywords,yes,1,Content Explorer,154,
+content governance,500,500,2,400,high,extra-keywords,yes,1,Content Explorer,155,
+will marketing be replaced by ai,450,250,5,60,medium,extra-keywords,yes,0,,156,
+does blogging help seo,450,700,0,140,high,extra-keywords,yes,2,Keywords Explorer,157,
+higher education seo,450,1500,51,60,medium,extra-keywords,yes,2,Site Explorer,158,
+content operations,450,300,4,150,high,extra-keywords,yes,1,Content Explorer,159,
+syndication networks,450,250,10,10,high,extra-keywords,yes,1,Site Explorer,160,
+the future of seo,450,1200,19,250,high,extra-keywords,yes,2,Keywords Explorer,161,
+content planning template,400,10000,17,300,high,extra-keywords,yes,1,Content Explorer,162,
+enterprise ecommerce seo,350,20,5,700,medium,extra-keywords,yes,2,Site Explorer,163,
+enterprise local seo,350,100,6,,medium,extra-keywords,yes,2,Rank Tracker,164,
+traffic sources,350,200,11,200,high,extra-keywords,yes,2,Web Analytics,165,
+tiered link building,350,250,1,700,high,extra-keywords,yes,2,Site Explorer,166,
+marketing team structure,350,150,0,450,high,extra-keywords,yes,0,,167,
+low hanging fruit seo,350,400,6,350,high,extra-keywords,yes,3,Keywords Explorer,168,
+how to promote a product,300,800,10,160,high,extra-keywords,yes,1,Content Explorer,169,
+full stack marketer,300,350,2,250,high,extra-keywords,yes,0,,170,
+drug rehab seo,250,350,5,900,high,extra-keywords,yes,2,Site Explorer,171,
+flipping websites,250,350,11,90,high,extra-keywords,yes,2,Site Explorer,172,
+enterprise seo mistakes,250,100,2,,high,extra-keywords,yes,2,Site Explorer,173,
+is seo hard to learn,250,350,1,60,high,extra-keywords,yes,2,Site Explorer,174,
+pagination rel next prev,250,1100,3,,medium,content-gap-analysis,yes,2,Site Audit,175,
+b2b marketing benchmarks,250,350,22,1200,high,extra-keywords,yes,0,,176,
+brand activation examples,250,500,0,140,high,extra-keywords,yes,0,,177,
+syndication network,200,250,5,500,high,extra-keywords,yes,1,Site Explorer,178,
+seo hacks,200,250,5,170,high,extra-keywords,yes,2,Site Explorer,179,
+seo portfolio examples,200,300,0,200,high,extra-keywords,yes,1,Site Explorer,180,
+content marketing planning template,200,1500,25,250,high,extra-keywords,yes,1,Content Explorer,181,
+marketing data sources,200,100,0,500,high,extra-keywords,yes,1,Web Analytics,182,
+how to put ads on your website,150,800,22,800,high,extra-keywords,yes,0,,183,
+content buckets,150,150,0,120,high,extra-keywords,yes,1,Content Explorer,184,
+google sheets seo,150,250,4,,high,extra-keywords,yes,2,Site Explorer,185,
+digital content planning,150,30,4,350,medium,extra-keywords,yes,1,Content Explorer,186,
+website content planning template,150,250,10,300,high,extra-keywords,yes,1,Content Explorer,187,
+telegram marketing,150,1100,13,140,high,extra-keywords,yes,0,,188,
+how to create a benchmark report,150,40,2,300,high,extra-keywords,yes,1,Web Analytics,189,
+enterprise content optimization,100,1000,1,,high,extra-keywords,yes,2,Site Audit,190,
+how seo and sem work together,100,6600,1,,high,extra-keywords,yes,2,Keywords Explorer,191,
+webflow vs wordpress seo,80,30,6,400,medium,extra-keywords,yes,2,Site Audit,192,
+how to do seo on squarespace,50,6900,15,450,high,extra-keywords,yes,2,Site Audit,193,
+the truth about seo,40,30,6,,low,extra-keywords,yes,2,Site Explorer,194,
+submit website to search engines,,,,,medium,manual,yes,2,Site Audit,195,
+seo website design,,,,,medium,manual,yes,2,Site Audit,196,
+query fan out,,,,,medium,manual,yes,2,Keywords Explorer,197,
+best seo podcasts,,,,,medium,manual,yes,1,Content Explorer,198,
+most visited websites,11000,78000,72,60,high,content-gap-analysis,yes,1,Site Explorer,199,
+affiliate marketing websites,4100,66000,88,150,high,extra-keywords,yes,1,Content Explorer,200,
+what jobs will ai replace,3200,90,64,10,low,extra-keywords,yes,0,,201,
+new social media,2700,3000,42,90,high,content-gap-analysis,yes,0,,202,
+reputation management companies,2200,47000,4,1200,high,content-gap-analysis,yes,1,Brand Radar,203,
+conversion rate optimization agency,2200,2700,25,25,high,content-gap-analysis,yes,1,Web Analytics,204,
+seo lead generation software,1000,800,12,600,medium,content-gap-analysis,yes,1,Site Explorer,205,
+seo audit pricing,700,700,3,300,medium,content-gap-analysis,yes,1,Site Audit,206,
+seo automation tools,1900,9500,41,400,high,content-gap-analysis,no,,,,
+ppc agency,17000,3900,29,50,high,content-gap-analysis,no,,,,
+website traffic checker,13000,135000,65,250,high,content-gap-analysis,no,,,,
+keyword ranking,6300,253000,79,250,high,content-gap-analysis,no,,,,
+keyword rank checker,6600,173000,74,250,high,content-gap-analysis,no,,,,
+keyword explorer,4800,65000,96,190,high,content-gap-analysis,no,,,,
+ahrefs alternative,4000,13000,7,350,high,content-gap-analysis,no,,,,
+keyword checker,3900,23000,96,200,high,content-gap-analysis,no,,,,
+bing rank tracker,2800,2000,4,450,high,content-gap-analysis,no,,,,
+backlink monitor,2600,1300,79,350,high,content-gap-analysis,no,,,,
+competitor checker,2200,247000,60,800,high,content-gap-analysis,no,,,,
+semrush alternatives,2100,3700,7,600,high,content-gap-analysis,no,,,,
+keyword density checker,1500,12000,45,250,medium,content-gap-analysis,no,,,,
+london seo,1200,5700,48,400,medium,extra-keywords,no,,,,
+affordable seo tools,1000,11000,16,700,high,extra-keywords,no,,,,
+best seo app for shopify,900,4000,13,250,high,extra-keywords,no,,,,
+keyword grouping tool,900,3000,16,250,high,extra-keywords,no,,,,
+seo content writing software,700,9000,74,200,high,extra-keywords,no,,,,
+small business seo tools,600,2700,24,350,high,extra-keywords,no,,,,
+manage keywords,600,373000,90,300,high,extra-keywords,no,,,,
+search intent tool,500,250,85,450,low,extra-keywords,no,,,,
+competitive intelligence tools,2900,1000,17,45,high,extra-keywords,no,,,,
+ai seo optimization tools,1200,32000,40,,,extra-keywords,no,,,,
+best digital marketing tools,350,47000,54,700,medium,extra-keywords,no,,,,
+ai tools for content marketing,350,49000,77,800,high,extra-keywords,no,,,,
+surfer seo alternatives,800,300,5,500,high,extra-keywords,no,,,,
+best website builder for seo,1000,20,61,400,low,extra-keywords,no,,,,
+best free ai content generator,200,0,50,90,low,extra-keywords,no,,,,
+google seo tools,1100,97000,97,450,high,extra-keywords,no,,,,
+ai content detector,16000,571000,92,45,high,extra-keywords,no,,,,
+ai writing assistant,17000,16000,86,80,high,extra-keywords,no,,,,
+how to use chat gpt,27000,95270000,89,80,high,extra-keywords,no,,,,
+swot analysis,158000,12000,72,5,high,extra-keywords,no,,,,
+digital asset management,3900,1400,54,700,medium,extra-keywords,no,,,,
+404,26000,14000,69,9,high,extra-keywords,no,,,,
+high ticket affiliate marketing,11000,12000,2,70,high,extra-keywords,no,,,,

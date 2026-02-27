@@ -1,19 +1,40 @@
 ---
-name: score-business-potential
-description: Score keywords by Ahrefs product relevance (0-3 Business Potential)
+name: keyword-prioritization
+description: Prioritize keywords by blog fit and Ahrefs product relevance
 argument-hint: [keyword-ideas.csv or keyword]
 allowed-tools: Read, Write, Edit
 ---
 
-# Score Business Potential
+# Keyword Prioritization
 
-Review keywords and assign a Business Potential score (0-3) based on how essential Ahrefs products are to solving the problem.
+Evaluate keywords for blog suitability and assign a Business Potential score (0-3) based on how essential Ahrefs products are to solving the problem.
 
 ## Input
 
 - **No argument**: Score all unscored keywords in `keyword-ideas.csv`
 - **CSV file path**: Score keywords in the specified CSV
 - **Single keyword**: Score just that keyword and explain reasoning
+
+---
+
+## Blog Fit Filter
+
+Before scoring Business Potential, first assess whether the keyword is appropriate for a **blog post** (vs. other page types).
+
+| Blog Fit | Criteria | Examples |
+|----------|----------|----------|
+| **Yes** | Educational, informational, or how-to content. Searchers want to learn, understand, or solve a problem. | "what is keyword difficulty", "link building strategies", "how to do an seo audit" |
+| **No** | Searchers want a tool, product, pricing, or direct action. Better served by a landing page, feature page, or interactive tool. | "free backlink checker", "seo tool", "ahrefs pricing", "keyword generator" |
+
+### Keywords to Skip (Not Blog Fit)
+
+- **Tool/generator queries**: "keyword generator", "backlink checker tool", "seo analyzer"
+- **Product/brand queries**: "[brand] pricing", "[brand] vs [brand]", "[brand] alternative"
+- **Feature queries**: "rank tracking software", "site audit tool"
+- **Free tool queries**: "free keyword research tool", "free backlink checker"
+- **Login/account queries**: "[brand] login", "create account"
+
+These keywords should be marked `blog_fit: no` and typically skipped for blog content planning.
 
 ---
 
@@ -148,14 +169,15 @@ Topic has **no connection** to Ahrefs capabilities:
 ### For CSV Scoring
 
 1. **Read keyword-ideas.csv**
-2. **For each keyword without a business_potential score:**
-   - Consider what problem/question the keyword represents
+2. **For each keyword without scores:**
+   - **First, assess Blog Fit** — Is this a blog post topic or better as a tool/landing page?
+   - If `blog_fit: no`, mark it and skip Business Potential scoring
+   - If `blog_fit: yes`, proceed to score Business Potential (0-3)
    - Match against Ahrefs product capabilities
-   - Assign score (0-3) based on rubric
    - Note which Ahrefs product(s) are most relevant
-3. **Update the CSV** with scores in the `business_potential` column
-4. **Rank all keywords** (see Ranking Step below)
-5. **Output summary** showing score distribution and ranked list
+3. **Update the CSV** with `blog_fit` and `business_potential` columns
+4. **Rank all keywords** (see Ranking Step below) — only rank `blog_fit: yes` keywords
+5. **Output summary** showing blog fit filter results and score distribution
 
 ### Ranking Step
 
@@ -184,10 +206,12 @@ Keywords with missing volume data should be ranked last within their BP tier.
 
 ### For Single Keyword
 
-1. **Analyze the keyword** and the user intent behind it
-2. **Identify relevant Ahrefs products** (if any)
-3. **Assign score** with detailed reasoning
-4. **Suggest how** Ahrefs could be mentioned (for scores 1-3)
+1. **Assess Blog Fit first** — Is the searcher looking for educational content or a tool/product?
+2. If **not blog-fit**: Explain why and suggest alternative page types
+3. If **blog-fit**: Analyze the keyword and user intent
+4. **Identify relevant Ahrefs products** (if any)
+5. **Assign Business Potential score** with detailed reasoning
+6. **Suggest how** Ahrefs could be mentioned (for scores 1-3)
 
 ---
 
@@ -196,14 +220,15 @@ Keywords with missing volume data should be ranked last within their BP tier.
 The skill expects and updates `keyword-ideas.csv` with this structure:
 
 ```csv
-keyword,volume,traffic_potential,difficulty,cpc,priority,source,business_potential,ahrefs_product,rank
+keyword,volume,traffic_potential,difficulty,cpc,priority,source,blog_fit,business_potential,ahrefs_product,rank
 ```
 
 | Column | Description |
 |--------|-------------|
-| `business_potential` | Score 0-3 based on this rubric |
+| `blog_fit` | `yes` or `no` — Is this keyword appropriate for a blog post? |
+| `business_potential` | Score 0-3 based on this rubric (only scored if blog_fit=yes) |
 | `ahrefs_product` | Primary Ahrefs product relevant to this topic |
-| `rank` | Overall priority ranking (1 = highest priority, sorted by BP then volume) |
+| `rank` | Overall priority ranking (1 = highest priority, sorted by BP then volume). Only blog_fit=yes keywords are ranked. |
 
 ---
 
@@ -212,9 +237,19 @@ keyword,volume,traffic_potential,difficulty,cpc,priority,source,business_potenti
 ### CSV Summary
 
 ```
-## Business Potential Scores Updated
+## Keyword Scoring Complete
 
-Scored [N] keywords in keyword-ideas.csv:
+Evaluated [N] keywords in keyword-ideas.csv:
+
+### Blog Fit Filter
+- **Blog-appropriate:** [N] keywords
+- **Not blog-appropriate:** [N] keywords (tool pages, landing pages, etc.)
+
+Skipped for blog (examples): "free backlink checker", "seo tool pricing", ...
+
+---
+
+### Business Potential Scores (Blog-Fit Keywords Only)
 
 | Score | Count | Keywords |
 |-------|-------|----------|
@@ -254,9 +289,11 @@ These are ideal for Ahrefs blog content:
 ### Single Keyword
 
 ```
-## Business Potential: "keyword gap"
+## Keyword Assessment: "keyword gap"
 
-**Score: 3** — Irreplaceable solution
+**Blog Fit:** Yes — Educational/how-to topic, searchers want to learn the concept
+
+**Business Potential: 3** — Irreplaceable solution
 
 **Reasoning:**
 "Keyword gap" directly describes a core Ahrefs feature. Site Explorer's Content Gap
@@ -273,19 +310,34 @@ your domain and up to 10 competitors, and it shows keywords they rank for that
 you're missing."
 ```
 
+### Single Keyword (Not Blog Fit)
+
+```
+## Keyword Assessment: "free backlink checker"
+
+**Blog Fit:** No — Tool/product query, searchers want to use a tool directly
+
+**Recommendation:** Skip for blog content. This keyword is better served by:
+- A dedicated tool landing page
+- The free backlink checker tool page itself
+
+**Note:** Could potentially write "How to Check Backlinks (Free & Paid Methods)"
+to capture adjacent informational intent with blog content.
+```
+
 ---
 
 ## Example Usage
 
 ```bash
-# Score all keywords in the default CSV
-/score-business-potential
+# Prioritize all keywords in the default CSV
+/keyword-prioritization
 
-# Score keywords in a specific file
-/score-business-potential ./research/keyword-list.csv
+# Prioritize keywords in a specific file
+/keyword-prioritization ./research/keyword-list.csv
 
-# Score a single keyword with explanation
-/score-business-potential "technical seo audit"
+# Evaluate a single keyword with explanation
+/keyword-prioritization "technical seo audit"
 ```
 
 ---
