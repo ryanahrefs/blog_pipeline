@@ -15,9 +15,10 @@ Content creation pipeline for blogging workflows. Each skill handles one step an
 | `/draft [outline-file]` | Expand outline into full article draft |
 | `/verify-claims [draft-file]` | Find sources for claims and add hyperlinks |
 | `/generate-ahrefs-screenshot [draft-file]` | Generate Ahrefs URLs for `[SCREENSHOT: ...]` placeholders (manual capture) |
+| `/ahrefs-urls [report-type]` | Construct Ahrefs app URLs for Site Explorer reports |
 | `/preview [draft-file]` | Generate Ahrefs-styled HTML preview |
 | `/format-for-publish [draft-file]` | Apply WordPress shortcodes and export to .docx |
-| `/blog-pipeline [keyword]` | Run full pipeline from keyword to publish-ready article |
+| `/blog-pipeline [keyword]` | Run full pipeline from keyword to publish-ready article (supports `--context`) |
 
 ## Project Structure
 
@@ -27,9 +28,10 @@ blog_pipeline/
 ├── keyword-ideas.csv         # Keyword ideas with metrics, business_potential (0-3), selected status
 ├── templates/                # HTML templates (ahrefs-preview.html)
 │
-├── content-pipeline/         # New content creation workflow
+├── content-pipeline/         # New content creation workflow (contents gitignored)
+│   ├── 0-context/            # /blog-pipeline --context outputs
 │   ├── 1-research/           # /research outputs
-│   ├── 2-reference/          # /ahrefs-reference outputs
+│   ├── 2-reference/          # /ahrefs-reference outputs + shared style references
 │   │   └── page_titles_all.csv  # Screaming Frog export for gap validation
 │   ├── 3-outlines/           # /outline outputs
 │   ├── 4-outlines-annotated/ # /ahrefs-mentions outputs
@@ -69,6 +71,9 @@ The `/research` skill uses Ahrefs MCP for:
 
 # Full pipeline (research → publish)
 /blog-pipeline "content marketing"
+
+# With drafting context/direction
+/blog-pipeline "content marketing" --context="Focus on B2B examples, data-driven angle"
 
 # Or step by step (specify keyword or pick from CSV)
 /research                      # Pick from keyword-ideas.csv
@@ -178,7 +183,7 @@ Ideas to consider for future sessions:
 
 - **`/existing-content` skill (planned).** Search existing Ahrefs blog for relevant content before outlining new articles. Plan: (1) Search `2-reference/page_titles_all.csv` using keyword/title matching (no vectorization needed for MVP), (2) Fetch top 3 articles via WebFetch, (3) Output analysis to `0-existing-content/` with coverage matrix, stances taken, gaps identified, and internal linking opportunities, (4) Update `/outline` to consume this analysis. Full plan saved at `.claude/plans/playful-jumping-puffin.md`.
 
-- **Content updating module (in progress).** Building dedicated workflow for refreshing existing articles. Complete: `/extract-content`, `/update-claims`, `/update-ahrefs-mentions`, `/update-topic-gaps`, `/update-preview`. Remaining: `/update-plan` (consolidate audits), `/update-draft` (apply changes), `/update-pipeline` (full flow).
+- **Content updating module (mostly complete).** Dedicated workflow for refreshing existing articles. Complete: `/extract-content`, `/update-claims`, `/update-ahrefs-mentions`, `/update-topic-gaps`, `/update-preview`, `/update-guidance`, `/update-pipeline`. Remaining: `/update-plan` (consolidate audits), `/update-draft` (apply changes).
 
 - **Deep research report for drafting.** Add a research-style report based on the outline to inform the drafting step. Might be overkill, but could improve depth.
 
@@ -214,3 +219,24 @@ Built four new skills for the content update workflow:
 - Moved content creation folders into `content-pipeline/`
 - Renamed `2-audit` → `2-update-claims` for clearer stage inspection
 - Added `5-update-preview/` for diff HTML outputs
+
+### 2026-03-04: Context Parameter and Repo Cleanup
+
+Added `--context` parameter to `/blog-pipeline` for passing drafting guidance:
+- Context saved to `content-pipeline/0-context/[slug].md`
+- `/draft` skill reads context file to adjust writing approach
+- Example: `--context="Focus on beginner-friendly examples, emphasize AI features"`
+
+New skills added:
+- `/generate-ahrefs-screenshot` - Parse `[SCREENSHOT: ...]` placeholders and generate Ahrefs app URLs
+- `/ahrefs-urls` - Construct Site Explorer URLs programmatically
+- `/update-guidance` - Set update priorities before running audits
+- `/update-pipeline` - Run full content update flow from URL to diff preview
+
+**Repository cleanup:**
+- Updated `.gitignore` to exclude all pipeline content (user-specific drafts)
+- Added `.gitkeep` files to preserve folder structure
+- Kept shared reference files tracked (style-reference.md, page_titles_all.csv)
+- Users cloning repo get empty pipeline folders ready for their own content
+
+**Tested on:** `reddit-keyword-research` article with context parameter working end-to-end.

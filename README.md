@@ -1,26 +1,28 @@
 # Blog Pipeline
 
-An AI-powered content creation pipeline built with Claude Code. Takes a keyword from research to publish-ready article in 7 automated steps.
+An AI-powered content creation pipeline built with Claude Code. Takes a keyword from research to publish-ready article in 9 automated steps.
 
 ## What It Does
 
 This pipeline transforms keyword ideas into fully-drafted, cited, and formatted blog articles. Each step is a standalone Claude Code skill that can run independently or chain together.
 
-**The 7-step pipeline:**
+**The 9-step pipeline:**
 
 ```
-Keyword → Research → Outline → Annotate → Draft → Cite → Preview → Publish
+Keyword → Research → Reference → Outline → Annotate → Draft → Cite → Screenshots → Preview → Publish
 ```
 
 | Step | Skill | What It Does |
 |------|-------|--------------|
 | 1 | `/research` | Gathers keyword metrics, analyzes top 3 competitors, identifies content gaps |
-| 2 | `/outline` | Creates structured outline with BLUF, H2/H3 hierarchy, evidence placeholders |
-| 3 | `/ahrefs-mentions` | Annotates outline with natural product mentions |
-| 4 | `/draft` | Expands outline into full article (~2,000-3,500 words) |
-| 5 | `/verify-claims` | Finds sources for statistics and adds hyperlinks |
-| 6 | `/preview` | Generates styled HTML preview |
-| 7 | `/format-for-publish` | Applies WordPress shortcodes, exports to .docx |
+| 2 | `/ahrefs-reference` | Pulls existing Ahrefs blog articles as style/content reference |
+| 3 | `/outline` | Creates structured outline with BLUF, H2/H3 hierarchy, evidence placeholders |
+| 4 | `/ahrefs-mentions` | Annotates outline with natural product mentions |
+| 5 | `/draft` | Expands outline into full article (~2,000-3,500 words) |
+| 6 | `/verify-claims` | Finds sources for statistics and adds hyperlinks |
+| 7 | `/generate-ahrefs-screenshot` | Generates Ahrefs app URLs for screenshot placeholders |
+| 8 | `/preview` | Generates styled HTML preview |
+| 9 | `/format-for-publish` | Applies WordPress shortcodes, exports to .docx |
 
 ## Quick Start
 
@@ -33,6 +35,9 @@ claude
 # Run the full pipeline for a keyword
 /blog-pipeline "your keyword here"
 
+# With drafting context/direction
+/blog-pipeline "content marketing" --context="Focus on B2B examples, data-driven angle"
+
 # Or pick from your keyword ideas CSV
 /blog-pipeline
 ```
@@ -43,23 +48,29 @@ claude
 # Research a keyword
 /research "content marketing"
 
+# Pull reference articles
+/ahrefs-reference "content marketing"
+
 # Create outline from research
-/outline ./1-research/content-marketing.md
+/outline ./content-pipeline/1-research/content-marketing.md
 
 # Add product mentions
-/ahrefs-mentions ./2-outlines/content-marketing.md
+/ahrefs-mentions ./content-pipeline/3-outlines/content-marketing.md
 
 # Write the draft
-/draft ./3-outlines-annotated/content-marketing.md
+/draft ./content-pipeline/4-outlines-annotated/content-marketing.md
 
 # Add source citations
-/verify-claims ./4-drafts/content-marketing.md
+/verify-claims ./content-pipeline/5-drafts/content-marketing.md
+
+# Generate screenshot URLs
+/generate-ahrefs-screenshot ./content-pipeline/6-drafts-cited/content-marketing.md
 
 # Generate HTML preview
-/preview ./5-drafts-cited/content-marketing.md
+/preview ./content-pipeline/6-drafts-cited/content-marketing.md
 
 # Format for WordPress
-/format-for-publish ./5-drafts-cited/content-marketing.md
+/format-for-publish ./content-pipeline/6-drafts-cited/content-marketing.md
 ```
 
 ### Discover Keywords First
@@ -79,16 +90,27 @@ blog_pipeline/
 ├── .claude/
 │   └── skills/              # Skill definitions (one folder per skill)
 ├── templates/               # HTML preview template
-├── reference/               # Style reference articles
 ├── keyword-ideas.csv        # Keyword backlog with metrics
 │
-├── 1-research/              # Keyword research outputs
-├── 2-outlines/              # Article outlines
-├── 3-outlines-annotated/    # Outlines with product mentions
-├── 4-drafts/                # First drafts
-├── 5-drafts-cited/          # Drafts with source citations
-├── 6-preview/               # HTML previews
-└── 7-publish/               # WordPress-ready .md and .docx
+├── content-pipeline/        # Content creation workflow (contents gitignored)
+│   ├── 0-context/           # Drafting context from --context flag
+│   ├── 1-research/          # Keyword research outputs
+│   ├── 2-reference/         # Ahrefs blog references + shared style files
+│   ├── 3-outlines/          # Article outlines
+│   ├── 4-outlines-annotated/# Outlines with product mentions
+│   ├── 5-drafts/            # First drafts
+│   ├── 6-drafts-cited/      # Drafts with source citations
+│   ├── 7-preview/           # HTML previews
+│   ├── 8-publish/           # WordPress-ready .md and .docx
+│   └── images/              # Screenshot outputs (gitignored)
+│
+└── update-pipeline/         # Content refresh workflow (contents gitignored)
+    ├── 0-guidance/          # Update priorities
+    ├── 1-extracted/         # Extracted article content
+    ├── 2-update-claims/     # Outdated stats audit
+    ├── 3-update-ahrefs-mentions/  # New features audit
+    ├── 4-update-topic-gaps/ # Missing topics audit
+    └── 5-update-preview/    # Diff preview HTML
 ```
 
 ## Setup
@@ -103,7 +125,7 @@ blog_pipeline/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/blog_pipeline.git
+   git clone https://github.com/ryanahrefs/blog_pipeline.git
    cd blog_pipeline
    ```
 
@@ -138,7 +160,7 @@ blog_pipeline/
 
 4. **Add a style reference** (optional but recommended)
 
-   Save an example article that matches your target voice to `reference/style-reference.md`. The `/draft` skill uses this to calibrate tone and style.
+   Save an example article that matches your target voice to `content-pipeline/2-reference/style-reference.md`. The `/draft` skill uses this to calibrate tone and style.
 
 5. **Start Claude Code**
    ```bash
@@ -166,33 +188,75 @@ Each skill is defined in `.claude/skills/[skill-name]/SKILL.md`. Edit these file
 - Add new shortcodes
 - Modify the research workflow
 
+### Using the Context Parameter
+
+Pass drafting guidance to influence the article's approach:
+
+```bash
+# Focus on specific audience
+/blog-pipeline "keyword research" --context="Target audience is agency SEOs"
+
+# Request specific angle
+/blog-pipeline "link building" --context="Take a contrarian angle, emphasize quality over quantity"
+
+# Specify examples to include
+/blog-pipeline "seo tools" --context="Include more Ahrefs case studies, mention Brand Radar"
+```
+
 ### Style Reference
 
-The `/draft` skill reads `reference/style-reference.md` to extract voice patterns. Replace this file with an article that matches your brand's writing style.
+The `/draft` skill reads `content-pipeline/2-reference/style-reference.md` to extract voice patterns. Replace this file with an article that matches your brand's writing style.
+
+## Content Update Pipeline
+
+Separate workflow for refreshing existing articles:
+
+```bash
+# Full update pipeline
+/update-pipeline https://example.com/blog/article-to-update/
+
+# Or run steps individually
+/extract-content https://example.com/blog/article/
+/update-guidance article-slug
+/update-claims ./update-pipeline/1-extracted/article-slug.md
+/update-ahrefs-mentions ./update-pipeline/1-extracted/article-slug.md
+/update-topic-gaps ./update-pipeline/1-extracted/article-slug.md
+/update-preview article-slug
+```
 
 ## Skills Reference
 
 | Skill | Purpose | Input |
 |-------|---------|-------|
-| `/blog-pipeline` | Run full pipeline | keyword or `--from=step` |
+| `/blog-pipeline` | Run full pipeline | keyword, `--from=step`, `--context=` |
 | `/research` | Keyword intelligence | keyword |
+| `/ahrefs-reference` | Pull reference articles | keyword |
 | `/outline` | Create structure | research file |
 | `/ahrefs-mentions` | Add product mentions | outline file |
 | `/draft` | Write full article | annotated outline |
 | `/verify-claims` | Add source citations | draft file |
+| `/generate-ahrefs-screenshot` | Generate screenshot URLs | cited draft |
+| `/ahrefs-urls` | Construct Ahrefs URLs | report type |
 | `/preview` | HTML preview | cited draft |
 | `/format-for-publish` | WordPress + .docx | cited draft |
 | `/content-gap-analysis` | Find keyword gaps | domain |
 | `/keyword-prioritization` | Rate keyword fit | (uses CSV) |
+| `/update-pipeline` | Full update flow | URL |
+| `/extract-content` | Extract page content | URL |
+| `/update-guidance` | Set update priorities | slug |
+| `/update-claims` | Find outdated stats | extracted file |
+| `/update-ahrefs-mentions` | Find new features | extracted file |
+| `/update-topic-gaps` | Find missing topics | extracted file |
+| `/update-preview` | Generate diff preview | slug |
 
 ## Example Output
 
-Running `/blog-pipeline "seo chrome extensions"` produces:
+Running `/blog-pipeline "reddit keyword research"` produces:
 
-- **Research**: 295-line analysis with SERP data, competitor headers, content gaps
+- **Research**: Comprehensive analysis with SERP data, competitor headers, content gaps
 - **Outline**: Structured outline with 7 H2 sections, word count targets
-- **Draft**: ~3,100 word article in first-person voice
-- **Cited**: 6 source hyperlinks added, stats verified
+- **Draft**: ~2,500 word article in first-person voice with 4 methods
+- **Cited**: Source hyperlinks added, stats verified
 - **Publish**: WordPress shortcodes applied, .docx ready for upload
 
 ## Tips
@@ -201,6 +265,8 @@ Running `/blog-pipeline "seo chrome extensions"` produces:
   ```bash
   /blog-pipeline --from=draft "seo chrome extensions"
   ```
+
+- **Pass context for better drafts**: Use `--context` to guide tone, angle, or examples
 
 - **Preview while writing**: Run `/preview` on any draft to see it styled
 
