@@ -110,6 +110,13 @@ Use this comprehensive list to evaluate how well Ahrefs can address each topic:
 - Share of voice in AI responses
 - GEO (Generative Engine Optimization)
 
+**Social Media Manager** (Score 2-3 for):
+- Social media scheduling and publishing
+- Multi-platform posting (X/Twitter, Facebook, Instagram, LinkedIn, Bluesky)
+- Social media analytics and performance tracking
+- Content calendar management
+- Social media strategy and planning
+
 **Ahrefs SEO Toolbar** (Score 2 for):
 - Quick SERP analysis
 - On-page SEO checks
@@ -137,6 +144,7 @@ The article topic **directly maps to a core Ahrefs feature**:
 - "track keyword rankings" → Rank Tracker's core function
 - "find broken backlinks" → Site Explorer broken backlinks report
 - "AI brand visibility" → Brand Radar tracks this
+- "best time to post on social media" → Social Media Manager provides this data
 
 ### Score 2 — Helps Quite a Bit
 Ahrefs is **one of the best tools** for this, but the topic is broader:
@@ -145,11 +153,12 @@ Ahrefs is **one of the best tools** for this, but the topic is broader:
 - "keyword research for beginners" → Keywords Explorer is great, but topic is educational
 - "competitive analysis" → Multiple Ahrefs tools help, but isn't just about our tool
 - "technical seo guide" → Site Audit relevant, but topic is comprehensive
+- "social media scheduling tools" → Social Media Manager is a great fit, but topic is comparative
 
 ### Score 1 — Fleeting Mention
 Topic is **tangentially related** to SEO/marketing:
 - "content marketing trends" → Could mention Content Explorer briefly
-- "social media strategy" → Might reference traffic sources
+- "instagram marketing tips" → Social Media Manager relevant but not core to topic
 - "email marketing tips" → Limited SEO connection
 - "conversion rate optimization" → Web Analytics somewhat relevant
 - "marketing analytics" → Peripheral tool relevance
