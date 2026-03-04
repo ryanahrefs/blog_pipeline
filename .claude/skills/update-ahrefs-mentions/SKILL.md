@@ -29,6 +29,33 @@ Articles age not just because stats get outdated, but because **new tools and fe
 
 ## Workflow
 
+### Phase 0: Check for Guidance
+
+Before running the full audit:
+
+1. **Extract the slug** from the input file path:
+   - `./update-pipeline/1-extracted/programmatic-seo.md` → `programmatic-seo`
+
+2. **Check for guidance file** at `./update-pipeline/0-guidance/[slug].md`
+
+3. **If guidance exists:**
+   - Read the priority level for `/update-ahrefs-mentions`
+   - **PRIORITY**: Run full analysis - identify all relevant new features
+   - **LOW**: Be conservative - only suggest obvious, high-impact feature mentions (1 max)
+   - **SKIP**: Output minimal file:
+     ```markdown
+     # Ahrefs Mentions Audit: [Article Title]
+
+     **Skipped per guidance** - User selected goals that don't require Ahrefs mentions audit.
+
+     See `./update-pipeline/0-guidance/[slug].md` for context.
+     ```
+   - Include guidance summary in output header when running
+
+4. **If no guidance file:** Run with default behavior (full analysis)
+
+---
+
 ### Phase 1: Understand the Article
 
 1. **Read the extracted file**

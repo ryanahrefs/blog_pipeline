@@ -65,6 +65,8 @@ If pandoc is not installed, the skill will save the formatted .md file and note 
 
 ## Shortcode Syntax
 
+**Important:** Always use straight quotes (`"`) in shortcode attributes, never curly/smart quotes (`"` `"`).
+
 ### intro_text
 ```
 [intro_text]First paragraph of the article that hooks the reader.[/intro_text]
@@ -266,13 +268,18 @@ Add at the end before the Twitter CTA:
 2. **Remove Draft Notes section** at the end
 3. **Remove HTML comments** (`<!-- ... -->`)
 4. **Ensure proper spacing** around shortcodes (blank lines before/after)
+5. **Normalize quotes** - Replace curly/smart quotes with straight quotes:
+   - `"` (U+201C) and `"` (U+201D) → `"` (straight double quote)
+   - `'` (U+2018) and `'` (U+2019) → `'` (straight single quote)
+
+   This is critical for WordPress shortcode attributes like `link_text="..."` and `title="..."`.
 
 ### Phase 4: Export to .docx
 
 Use pandoc to convert the formatted markdown to .docx:
 
 ```bash
-pandoc input.md -o output.docx --from markdown --to docx
+pandoc input.md -o output.docx --from markdown-smart --to docx
 ```
 
 If pandoc is not installed, save as .md with a note that manual conversion is needed.

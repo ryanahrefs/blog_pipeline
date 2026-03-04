@@ -14,6 +14,7 @@ Content creation pipeline for blogging workflows. Each skill handles one step an
 | `/ahrefs-mentions [outline-file]` | Annotate outline with natural Ahrefs product mentions |
 | `/draft [outline-file]` | Expand outline into full article draft |
 | `/verify-claims [draft-file]` | Find sources for claims and add hyperlinks |
+| `/generate-ahrefs-screenshot [draft-file]` | Generate Ahrefs URLs for `[SCREENSHOT: ...]` placeholders (manual capture) |
 | `/preview [draft-file]` | Generate Ahrefs-styled HTML preview |
 | `/format-for-publish [draft-file]` | Apply WordPress shortcodes and export to .docx |
 | `/blog-pipeline [keyword]` | Run full pipeline from keyword to publish-ready article |
@@ -35,7 +36,8 @@ blog_pipeline/
 │   ├── 5-drafts/             # /draft outputs
 │   ├── 6-drafts-cited/       # /verify-claims outputs
 │   ├── 7-preview/            # /preview outputs
-│   └── 8-publish/            # /format-for-publish outputs
+│   ├── 8-publish/            # /format-for-publish outputs
+│   └── images/{slug}/        # /generate-ahrefs-screenshot outputs (gitignored)
 │
 └── update-pipeline/          # Content refresh workflow
     ├── 1-extracted/              # /extract-content outputs
@@ -76,6 +78,7 @@ The `/research` skill uses Ahrefs MCP for:
 /ahrefs-mentions ./content-pipeline/3-outlines/content-marketing.md
 /draft ./content-pipeline/4-outlines-annotated/content-marketing.md
 /verify-claims ./content-pipeline/5-drafts/content-marketing.md
+/generate-ahrefs-screenshot ./content-pipeline/6-drafts-cited/content-marketing.md --target=ahrefs.com
 /preview ./content-pipeline/6-drafts-cited/content-marketing.md
 /format-for-publish ./content-pipeline/6-drafts-cited/content-marketing.md
 ```
@@ -95,25 +98,28 @@ Separate workflow for refreshing existing articles rather than creating new ones
 | Skill | Purpose |
 |-------|---------|
 | `/extract-content [url]` | Extract page content and metadata from a URL |
+| `/update-guidance [slug]` | Set update priorities before running audits (optional) |
 | `/update-claims [extracted-file]` | Find outdated stats/claims and update with newer references |
 | `/update-ahrefs-mentions [extracted-file]` | Add mentions of new Ahrefs features launched since publication |
 | `/update-topic-gaps [extracted-file]` | Compare against current SERP to find missing topics |
 | `/update-preview [slug]` | Generate side-by-side diff preview with changes highlighted |
+| `/update-pipeline [url]` | Run full update pipeline from URL to diff preview |
 | `/update-plan` | *(planned)* Consolidate audits into actionable update plan |
 | `/update-draft` | *(planned)* Revise content based on update plan |
-| `/update-pipeline [url]` | *(planned)* Run full update pipeline |
 
 ### Update Directory Structure
 
 ```
 update-pipeline/
+├── 0-guidance/               # /update-guidance outputs (optional)
 ├── 1-extracted/              # Raw content extracted from URLs
 ├── 2-update-claims/          # Outdated stats/claims audit
 ├── 3-update-ahrefs-mentions/ # New Ahrefs features audit
 ├── 4-update-topic-gaps/      # Missing topics vs competitors
-├── 5-update-plan/            # Consolidated update plan
-├── 6-updated-draft/          # Revised content
-└── 7-updated-preview/        # Preview of changes
+├── 5-update-preview/         # Preview of changes with diff
+├── 6-update-plan/            # Consolidated update plan
+├── 7-updated-draft/          # Revised content
+└── 8-updated-final/          # Final content ready for publish
 ```
 
 ### Update Workflow Example
@@ -122,15 +128,22 @@ update-pipeline/
 # Step 1: Extract current content
 /extract-content https://ahrefs.com/blog/keyword-research/
 
-# Step 2: Run audits (can run in parallel)
+# Step 2 (optional): Set update priorities
+/update-guidance keyword-research
+# → Asks: Primary goal? Scope? Structural changes?
+# → Saves to: ./update-pipeline/0-guidance/keyword-research.md
+
+# Step 3: Run audits (can run in parallel)
+# Audits will read guidance file if it exists and adjust behavior
 /update-claims ./update-pipeline/1-extracted/keyword-research.md
 /update-ahrefs-mentions ./update-pipeline/1-extracted/keyword-research.md
 /update-topic-gaps ./update-pipeline/1-extracted/keyword-research.md
 
-# Step 3: Preview all changes with diff view
+# Step 4: Preview all changes with diff view
 /update-preview keyword-research
 
 # Outputs:
+#   ./update-pipeline/0-guidance/keyword-research.md (if /update-guidance was run)
 #   ./update-pipeline/2-update-claims/keyword-research.md
 #   ./update-pipeline/3-update-ahrefs-mentions/keyword-research.md
 #   ./update-pipeline/4-update-topic-gaps/keyword-research.md

@@ -230,13 +230,26 @@ If no style reference file exists, skip this phase and proceed with default guid
    - Section structure and BLUFs
    - Evidence placeholders to expand
 
-2. **Extract article metadata** to keep in mind throughout:
+2. **Read context file** (if exists):
+   - Check for `./content-pipeline/0-context/[slug].md`
+   - If found, extract direction/guidance from the "Direction" section
+   - Add to article metadata to inform writing approach
+
+   Context may specify:
+   - Target audience focus (beginner/advanced)
+   - Angle or perspective to take
+   - Types of examples to prioritize
+   - Specific themes to emphasize
+   - Tone adjustments
+
+3. **Extract article metadata** to keep in mind throughout:
    - Keyword
    - Thesis statement
    - Target word count
    - Voice/tone notes
+   - **Drafting context** (if context file exists)
 
-3. **Create the draft file** with metadata header:
+4. **Create the draft file** with metadata header:
    ```markdown
    # [Article Title]
 
@@ -263,6 +276,7 @@ For each H2 section in the outline:
 2. **Load context**:
    - Style Card (~200 words from Phase 0)
    - Article metadata (keyword, thesis)
+   - **Drafting context** (from `0-context/[slug].md`, if any)
    - This section's outline content (BLUF, sub-points, evidence)
    - Previous section's last paragraph (for transition continuity)
    - Next section's header and BLUF (for foreshadowing)

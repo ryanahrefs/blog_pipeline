@@ -1,5 +1,41 @@
 # API keys and secrets
 .mcp.json
+.claude/ahrefs-auth.json
+
+# Content pipeline outputs (user-specific drafts)
+# Keep folder structure via .gitkeep files
+content-pipeline/0-context/*
+!content-pipeline/0-context/.gitkeep
+content-pipeline/1-research/*
+!content-pipeline/1-research/.gitkeep
+content-pipeline/2-reference/*-ahrefs.md
+content-pipeline/3-outlines/*
+!content-pipeline/3-outlines/.gitkeep
+content-pipeline/4-outlines-annotated/*
+!content-pipeline/4-outlines-annotated/.gitkeep
+content-pipeline/5-drafts/*
+!content-pipeline/5-drafts/.gitkeep
+content-pipeline/6-drafts-cited/*
+!content-pipeline/6-drafts-cited/.gitkeep
+content-pipeline/7-preview/*
+!content-pipeline/7-preview/.gitkeep
+content-pipeline/8-publish/*
+!content-pipeline/8-publish/.gitkeep
+content-pipeline/images/
+
+# Update pipeline outputs (user-specific content)
+update-pipeline/0-guidance/*
+!update-pipeline/0-guidance/.gitkeep
+update-pipeline/1-extracted/*
+!update-pipeline/1-extracted/.gitkeep
+update-pipeline/2-update-claims/*
+!update-pipeline/2-update-claims/.gitkeep
+update-pipeline/3-update-ahrefs-mentions/*
+!update-pipeline/3-update-ahrefs-mentions/.gitkeep
+update-pipeline/4-update-topic-gaps/*
+!update-pipeline/4-update-topic-gaps/.gitkeep
+update-pipeline/5-update-preview/*
+!update-pipeline/5-update-preview/.gitkeep
 
 # OS files
 .DS_Store

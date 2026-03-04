@@ -91,9 +91,119 @@ Combine results into a single list and **deduplicate by `keyword_top`**:
 
 **Expected output:** 150-500 candidate gap keywords from top competitor pages.
 
-### 3. Check Which Keywords You Already Rank For
+### 3. Check Against Existing Blog Content (Primary)
 
-Determine whether your domain already ranks for the candidate gap keywords from Step 2.
+Use the Screaming Frog export to instantly check which candidate keywords already have dedicated articles. This is faster and more complete than API sampling.
+
+#### Recommended CSV Columns
+
+Export from Screaming Frog with these columns for best matching:
+
+| Column | Purpose |
+|--------|---------|
+| `Address` | URL for slug matching |
+| `Title 1` | Page title for keyword matching |
+| `H1-1` | H1 heading (often more keyword-focused than title) |
+| `Meta Description 1` | Additional keyword context |
+| `Indexability` | Filter to indexable pages only |
+
+**Current CSV location:** `content-pipeline/2-reference/page_titles_all.csv`
+
+#### Smart Keyword Extraction from Titles
+
+Titles are often clickbait-y. Extract the core topic by:
+
+1. **Remove common patterns:**
+   - Numbers: "67 Types of SEO" → "types of seo"
+   - How-to prefixes: "How to Do Keyword Research" → "keyword research"
+   - Suffixes: "... A Complete Guide", "... in 2024", "... (+ Examples)"
+   - Questions: "What is SEO?" → "seo"
+
+2. **Extraction examples:**
+
+| Title | Extracted Topic |
+|-------|-----------------|
+| "How to Optimize Google My Business in 30 Minutes" | `google my business` |
+| "67 Types of SEO: A Complete Guide" | `types of seo` |
+| "What is Keyword Cannibalization? (And How to Fix It)" | `keyword cannibalization` |
+| "Link Building for SEO: The Beginner's Guide" | `link building`, `link building for seo` |
+| "SEO Competitor Analysis: How to Find & Spy on Your Rivals" | `seo competitor analysis` |
+
+3. **Implementation:**
+
+```python
+import re
+
+def extract_topic(title):
+    """Extract core topic from blog title."""
+    t = title.lower()
+
+    # Remove trailing year/guide phrases
+    t = re.sub(r'\s*[\(\[]?\s*(in )?\d{4}\s*[\)\]]?\s*$', '', t)
+    t = re.sub(r'\s*[:\-–]\s*(a )?(complete |beginner.s |ultimate )?guide.*$', '', t, flags=re.I)
+    t = re.sub(r'\s*[\(\[].*?[\)\]]\s*$', '', t)  # Remove trailing parentheticals
+
+    # Remove leading patterns
+    t = re.sub(r'^(how to |what is |what are |why |when )', '', t, flags=re.I)
+    t = re.sub(r'^\d+\+?\s+', '', t)  # Leading numbers
+
+    # Remove filler words
+    t = re.sub(r'\s+(for seo|for beginners|you need to know|explained)$', '', t, flags=re.I)
+
+    return t.strip()
+```
+
+#### Matching Logic
+
+**For each candidate gap keyword**, check the local index:
+
+1. **URL slug match** (strongest signal):
+   ```
+   keyword: "keyword clustering"
+   slug: "keyword-clustering"
+   matches: /blog/keyword-clustering/ ✅
+   ```
+
+2. **Extracted topic match** (checks H1 if available, then Title):
+   ```
+   keyword: "types of seo"
+   title: "67 Types of SEO: A Complete Guide"
+   extracted: "types of seo" ✅
+   ```
+
+3. **Partial/fuzzy match** (lower confidence):
+   ```
+   keyword: "seo audit"
+   title: "How to Do an SEO Audit in 2024"
+   partial match ✅ (flag for manual review)
+   ```
+
+**Matching rules:**
+- Exact slug match → **HIGH confidence**
+- Extracted topic match → **HIGH confidence**
+- Keyword substring in title/H1 → **MEDIUM confidence**
+- Partial word overlap (2+ words) → **LOW confidence** (flag for review)
+
+#### Check for New Articles (Optional)
+
+To catch articles published since the last SF crawl:
+
+```bash
+curl -s https://ahrefs.com/blog/sitemap.xml | grep -oP '(?<=<loc>)[^<]+' > /tmp/current_sitemap.txt
+# Diff against CSV addresses to find new URLs
+```
+
+#### Initial Classification
+
+| Match Result | Classification |
+|--------------|----------------|
+| ✅ High confidence match | ❓ **LIKELY COVERED** (verify ranking in Step 3.5) |
+| ⚠️ Low confidence match | 🔍 **NEEDS REVIEW** (manual check) |
+| ❌ No match found | ✅ **CANDIDATE GAP** (proceed to Step 3.5) |
+
+### 3.5 Get Ranking Positions for Gaps (API)
+
+For keywords NOT matched in the CSV (true gap candidates), check if you rank at all using the API.
 
 Call `mcp__ahrefs__site-explorer-organic-keywords` with:
 - `target`: $ARGUMENTS (your domain)
@@ -101,85 +211,27 @@ Call `mcp__ahrefs__site-explorer-organic-keywords` with:
 - `country`: Same country as Steps 1-2
 - `date`: Current date in YYYY-MM-DD format
 - `select`: "keyword,best_position,best_position_url,volume,sum_traffic"
+- `where`: Filter to only the candidate gap keywords if possible
 - `order_by`: "volume:desc"
 - `limit`: 1000
 
-**Cross-reference logic:**
+**Cross-reference the gap candidates:**
 
-For each candidate gap keyword from Step 2:
-1. **You rank positions 1-10** → ❌ **ALREADY COMPETING** (exclude from report)
-2. **You rank positions 11-50** → ⚠️ **OPTIMIZATION OPPORTUNITY** (medium priority)
-3. **You don't rank at all (position > 100 or not found)** → ❓ **CANDIDATE GAP** (needs validation in Step 3.5)
+1. **You rank positions 1-10** → ❌ **ALREADY COMPETING** (CSV may be outdated, exclude)
+2. **You rank positions 11-50** → ⚠️ **OPTIMIZATION OPPORTUNITY** (improve existing page)
+3. **You don't rank (position > 100 or not found)** → ✅ **TRUE CONTENT GAP**
 
-**Important:** The API returns max 1,000 keywords, but large sites rank for 100K+. "Not found in API sample" ≠ "no content exists". Step 3.5 validates candidate gaps.
+**For "LIKELY COVERED" keywords from Step 3:**
 
-### 3.5 Validate Gap Keywords Against Existing Blog Content
+Also check their ranking positions to classify:
 
-Before enriching gap keywords, verify your domain doesn't already have dedicated articles for candidate gaps.
-
-#### Load the Blog URL Index
-
-Use the Screaming Frog export at `content-pipeline/2-reference/page_titles_all.csv` for fast local validation:
-
-```bash
-# Load the CSV (columns: Address, Title 1)
-# Extract URL slugs and titles for matching
-```
-
-The CSV contains all blog URLs and their titles. Use this for instant lookups instead of slow site: searches.
-
-#### Check for New Articles (Optional)
-
-To catch articles published since the last crawl, fetch the sitemap:
-
-```bash
-curl -s https://ahrefs.com/blog/sitemap.xml | grep -oP '(?<=<loc>)[^<]+' > /tmp/current_sitemap.txt
-```
-
-Compare against the CSV to identify new URLs not yet in the index.
-
-#### Matching Logic
-
-**For each candidate gap keyword**, check the local index:
-
-1. **URL slug match:** Does any URL contain the keyword as a slug?
-   - `keyword-clustering` → matches `/blog/keyword-clustering/`
-   - `seo silo` → matches `/blog/seo-silo-structure/` (partial match OK)
-
-2. **Title match:** Does any title contain the keyword phrase?
-   - "types of seo" → matches "68 Types of SEO. Did We Miss Any?"
-
-**Matching rules:**
-- Convert keyword to lowercase, replace spaces with hyphens for URL matching
-- Use case-insensitive substring match for titles
-- Partial matches count (e.g., "keyword cluster" matches "keyword-clustering")
-
-#### Classification
-
-Based on match results + ranking data from Step 3:
-
-| Match Found? | Ranking | Classification |
-|--------------|---------|----------------|
-| ✅ Yes | Top 10 | ❌ **EXISTING CONTENT** (exclude) |
-| ✅ Yes | 11-100 | 🔄 **UPDATE OPPORTUNITY** |
-| ❌ No | 11-50 | ⚠️ **OPTIMIZATION OPPORTUNITY** |
-| ❌ No | Not ranking | ✅ **TRUE CONTENT GAP** |
-
-**Example validation code:**
-
-```bash
-# Check if keyword exists in blog index
-keyword="keyword clustering"
-slug=$(echo "$keyword" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
-
-# Search URL column
-grep -i "$slug" content-pipeline/2-reference/page_titles_all.csv
-
-# Search title column
-grep -i "$keyword" content-pipeline/2-reference/page_titles_all.csv
-```
-
-This replaces dozens of slow site: searches with instant local lookups.
+| CSV Match | API Ranking | Final Classification |
+|-----------|-------------|----------------------|
+| ✅ Match | Top 10 | ❌ **EXISTING CONTENT** (exclude) |
+| ✅ Match | 11-100 | 🔄 **UPDATE OPPORTUNITY** |
+| ✅ Match | Not ranking | 🔄 **UPDATE OPPORTUNITY** (content exists but not ranking) |
+| ❌ No match | 11-50 | ⚠️ **OPTIMIZATION OPPORTUNITY** |
+| ❌ No match | Not ranking | ✅ **TRUE CONTENT GAP** |
 
 ### 4. Enrich Gap Keywords with Traffic Potential
 

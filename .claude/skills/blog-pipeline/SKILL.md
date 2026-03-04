@@ -29,6 +29,12 @@ Resumes pipeline from the specified step (useful if earlier steps are complete).
 ```
 Shows available keywords from `keyword-ideas.csv` (same as `/research` with no args).
 
+**Option D: With context/direction**
+```
+/blog-pipeline "content marketing" --context="Focus on B2B examples, take a data-driven angle"
+```
+Passes drafting guidance through the pipeline. Context influences the writing approach, angle, and examples used.
+
 ---
 
 ## Pipeline Steps
@@ -41,8 +47,33 @@ Shows available keywords from `keyword-ideas.csv` (same as `/research` with no a
 | 4 | `/ahrefs-mentions` | outline file | `content-pipeline/4-outlines-annotated/` |
 | 5 | `/draft` | annotated outline | `content-pipeline/5-drafts/` |
 | 6 | `/verify-claims` | draft file | `content-pipeline/6-drafts-cited/` |
-| 7 | `/preview` | cited draft | `content-pipeline/7-preview/` |
-| 8 | `/format-for-publish` | cited draft | `content-pipeline/8-publish/` |
+| 7 | `/generate-ahrefs-screenshot` | cited draft | `content-pipeline/images/` *(URLs for manual capture)* |
+| 8 | `/preview` | cited draft | `content-pipeline/7-preview/` |
+| 9 | `/format-for-publish` | cited draft | `content-pipeline/8-publish/` |
+
+---
+
+## Context File
+
+When `--context` is provided, it's saved as:
+
+```markdown
+# Drafting Context: [keyword]
+
+## Direction
+[User-provided context here]
+
+## Generated: [timestamp]
+```
+
+Located at: `./content-pipeline/0-context/[slug].md`
+
+The `/draft` skill (and optionally `/outline`) reads this file to adjust:
+- Target audience focus (beginner/advanced)
+- Angle or perspective to take
+- Types of examples to prioritize
+- Specific themes to emphasize
+- Tone adjustments
 
 ---
 
@@ -157,14 +188,34 @@ Find and add source links to factual claims.
 
 ---
 
-### Step 7: Preview
+### Step 7: Generate Ahrefs Screenshots
+Generate URLs for `[SCREENSHOT: ...]` placeholders in the draft.
+
+```
+/generate-ahrefs-screenshot ./content-pipeline/6-drafts-cited/[keyword-slug].md --target=ahrefs.com
+```
+
+**Input:** Cited draft from Step 6
+**Output:** URL list + `./content-pipeline/images/[keyword-slug]/` directory created
+
+**What it does:**
+- Parse `[SCREENSHOT: ...]` placeholders from draft
+- Classify each (Keywords Explorer, Site Explorer, etc.)
+- Generate Ahrefs app URLs for each screenshot
+- Output capture instructions and filenames
+
+**⚠️ Manual step required:** User must open URLs and capture screenshots before proceeding.
+
+---
+
+### Step 8: Preview
 Generate an Ahrefs-styled HTML preview.
 
 ```
 /preview ./content-pipeline/6-drafts-cited/[keyword-slug].md
 ```
 
-**Input:** Cited draft from Step 6
+**Input:** Cited draft from Step 6 (with screenshots in images folder)
 **Output:** `./content-pipeline/7-preview/[keyword-slug].html`
 
 **What it does:**
@@ -174,7 +225,7 @@ Generate an Ahrefs-styled HTML preview.
 
 ---
 
-### Step 8: Format for Publish
+### Step 9: Format for Publish
 Apply WordPress shortcodes and export to .docx.
 
 ```
@@ -199,9 +250,19 @@ When running the full pipeline:
 
 1. **Parse keyword** from arguments (or prompt for selection from CSV)
 2. **Convert to slug** (lowercase, hyphens: "content marketing" → "content-marketing")
-3. **Run each step in sequence:**
+3. **Save context** (if `--context` provided):
+   - Parse `--context="..."` from arguments
+   - Save to `./content-pipeline/0-context/[slug].md`
+4. **Run each step in sequence:**
 
 ```
+Step 0 (if --context provided): Save context
+   → Create ./content-pipeline/0-context/[slug].md with:
+     # Drafting Context: [keyword]
+     ## Direction
+     [context text]
+     ## Generated: [timestamp]
+
 Step 1: /research "[keyword]"
    → Verify: ./content-pipeline/1-research/[slug].md exists
 
@@ -220,10 +281,15 @@ Step 5: /draft ./content-pipeline/4-outlines-annotated/[slug].md
 Step 6: /verify-claims ./content-pipeline/5-drafts/[slug].md
    → Verify: ./content-pipeline/6-drafts-cited/[slug].md exists
 
-Step 7: /preview ./content-pipeline/6-drafts-cited/[slug].md
+Step 7: /generate-ahrefs-screenshot ./content-pipeline/6-drafts-cited/[slug].md --target=ahrefs.com
+   → Output: URL list for manual screenshot capture
+   → Verify: ./content-pipeline/images/[slug]/ directory created
+   ⚠️ PAUSE: User captures screenshots manually before continuing
+
+Step 8: /preview ./content-pipeline/6-drafts-cited/[slug].md
    → Verify: ./content-pipeline/7-preview/[slug].html exists
 
-Step 8: /format-for-publish ./content-pipeline/6-drafts-cited/[slug].md
+Step 9: /format-for-publish ./content-pipeline/6-drafts-cited/[slug].md
    → Verify: ./content-pipeline/8-publish/[slug].md and .docx exist
 ```
 
@@ -246,8 +312,9 @@ Valid `--from` values:
 - `ahrefs-mentions` (Step 4)
 - `draft` (Step 5)
 - `verify-claims` (Step 6)
-- `preview` (Step 7)
-- `format-for-publish` (Step 8)
+- `generate-ahrefs-screenshot` (Step 7)
+- `preview` (Step 8)
+- `format-for-publish` (Step 9)
 
 Before resuming, verify the required input file exists from the previous step.
 
@@ -268,8 +335,9 @@ After a complete pipeline run:
 | 4. Annotated | ./content-pipeline/4-outlines-annotated/[slug].md |
 | 5. Draft | ./content-pipeline/5-drafts/[slug].md |
 | 6. Cited | ./content-pipeline/6-drafts-cited/[slug].md |
-| 7. Preview | ./content-pipeline/7-preview/[slug].html |
-| 8. Publish | ./content-pipeline/8-publish/[slug].md, .docx |
+| 7. Screenshots | ./content-pipeline/images/[slug]/*.png (manual capture) |
+| 8. Preview | ./content-pipeline/7-preview/[slug].html |
+| 9. Publish | ./content-pipeline/8-publish/[slug].md, .docx |
 
 Ready for WordPress upload: ./content-pipeline/8-publish/[slug].docx
 ```
@@ -301,6 +369,16 @@ Each step is independent—if the pipeline fails mid-way, you can fix the issue 
 **Resume from draft step:**
 ```
 /blog-pipeline --from=draft "keyword research"
+```
+
+**With context/direction:**
+```
+/blog-pipeline "keyword research" --context="Target audience is agency SEOs, include workflow efficiency tips"
+```
+
+**Resume from draft with context:**
+```
+/blog-pipeline --from=draft "keyword research" --context="Make it more actionable with step-by-step instructions"
 ```
 
 **Just research + outline (stop early):**

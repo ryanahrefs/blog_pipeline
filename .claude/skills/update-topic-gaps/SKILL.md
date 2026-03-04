@@ -29,6 +29,37 @@ This skill identifies what needs to be added to stay competitive.
 
 ## Workflow
 
+### Phase 0: Check for Guidance
+
+Before running the full audit:
+
+1. **Extract the slug** from the input file path:
+   - `./update-pipeline/1-extracted/programmatic-seo.md` → `programmatic-seo`
+
+2. **Check for guidance file** at `./update-pipeline/0-guidance/[slug].md`
+
+3. **If guidance exists:**
+   - Read the priority level for `/update-topic-gaps`
+   - **PRIORITY**: Run full analysis - scrape competitors, build coverage matrix
+   - **LOW**: Light analysis - check SERP but only note critical gaps (covered by all 3 competitors)
+   - **SKIP**: Output minimal file:
+     ```markdown
+     # Topic Gap Audit: [Article Title]
+
+     **Skipped per guidance** - User selected goals that don't require topic gap analysis.
+
+     See `./update-pipeline/0-guidance/[slug].md` for context.
+     ```
+   - Also check **structural constraints** from guidance:
+     - "Keep current structure" → Don't recommend new H2 sections
+     - "Allow new sections" → Can recommend additions
+     - "Allow restructuring" → Can recommend reorganization
+   - Include guidance summary in output header when running
+
+4. **If no guidance file:** Run with default behavior (full analysis)
+
+---
+
 ### Phase 1: Understand the Current Article
 
 1. **Read the extracted file**

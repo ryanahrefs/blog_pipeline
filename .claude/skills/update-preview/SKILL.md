@@ -162,6 +162,63 @@ Create an HTML file with three panels:
         .header h1 { font-size: 1.5rem; margin-bottom: 8px; }
         .header .meta { font-size: 0.875rem; opacity: 0.8; }
 
+        /* Review Progress */
+        .review-progress {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .progress-counts {
+            display: flex;
+            gap: 12px;
+            font-size: 0.875rem;
+        }
+
+        .count-accepted { color: #28a745; }
+        .count-rejected { color: #dc3545; }
+        .count-pending { color: #ffc107; }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .accepted-fill { background: #28a745; width: 0%; }
+        .rejected-fill { background: #dc3545; width: 0%; }
+
+        .btn-export {
+            padding: 8px 16px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .btn-export:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-export:not(:disabled):hover {
+            background: #218838;
+        }
+
         .container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -303,8 +360,35 @@ Create an HTML file with three panels:
         .type-topic { background: #d4edda; color: #155724; }
 
         .change-details { font-size: 0.875rem; }
-        .change-details strong { display: block; margin-bottom: 4px; }
-        .change-details .reason { color: #6c757d; font-size: 0.8rem; }
+        .change-details .change-title { display: block; margin-bottom: 4px; }
+        .change-details .change-reason { color: #6c757d; font-size: 0.8rem; display: block; margin-top: 8px; }
+
+        .change-content {
+            background: #f8f9fa;
+            padding: 8px;
+            border-radius: 4px;
+            margin: 8px 0;
+            font-size: 0.8rem;
+        }
+
+        .original-text {
+            color: #cb2431;
+            margin-bottom: 4px;
+        }
+
+        .original-text::before {
+            content: "- ";
+            font-weight: bold;
+        }
+
+        .replacement-text {
+            color: #22863a;
+        }
+
+        .replacement-text::before {
+            content: "+ ";
+            font-weight: bold;
+        }
 
         .change-actions {
             display: flex;
@@ -324,6 +408,65 @@ Create an HTML file with three panels:
         .btn-reject { background: #dc3545; color: white; }
         .btn-accept:hover { background: #218838; }
         .btn-reject:hover { background: #c82333; }
+
+        /* Decision states */
+        .change-item.accepted {
+            border-left: 4px solid #28a745;
+            background: #f0fff4;
+        }
+
+        .change-item.accepted .btn-accept {
+            background: #155724;
+        }
+
+        .change-item.accepted .btn-accept::before {
+            content: "✓ ";
+        }
+
+        .change-item.accepted button:disabled {
+            opacity: 0.6;
+            cursor: default;
+        }
+
+        .change-item.rejected {
+            border-left: 4px solid #dc3545;
+            opacity: 0.6;
+        }
+
+        .change-item.rejected .change-details strong {
+            text-decoration: line-through;
+        }
+
+        .change-item.rejected .btn-reject {
+            background: #721c24;
+        }
+
+        .change-item.rejected .btn-reject::before {
+            content: "✗ ";
+        }
+
+        .change-item.rejected button:disabled {
+            opacity: 0.6;
+            cursor: default;
+        }
+
+        .btn-reset {
+            background: transparent;
+            color: #6c757d;
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border: 1px solid #6c757d;
+            display: none;
+        }
+
+        .change-item.accepted .btn-reset,
+        .change-item.rejected .btn-reset {
+            display: inline-block;
+        }
+
+        .btn-reset:hover {
+            background: #f8f9fa;
+        }
 
         /* Sync scrolling indicator */
         .scroll-sync {
@@ -346,6 +489,18 @@ Create an HTML file with three panels:
             <span>Original: {{ORIGINAL_DATE}}</span> ·
             <span>{{TOTAL_CHANGES}} proposed changes</span> ·
             <span>Generated: {{PREVIEW_DATE}}</span>
+        </div>
+        <div class="review-progress">
+            <div class="progress-counts">
+                <span class="count-accepted">0 accepted</span>
+                <span class="count-rejected">0 rejected</span>
+                <span class="count-pending">{{TOTAL_CHANGES}} pending</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill accepted-fill"></div>
+                <div class="progress-fill rejected-fill"></div>
+            </div>
+            <button class="btn-export" disabled>Download Update Plan</button>
         </div>
     </div>
 
@@ -400,6 +555,186 @@ Create an HTML file with three panels:
 
         original.addEventListener('scroll', () => syncScroll(original, updated));
         updated.addEventListener('scroll', () => syncScroll(updated, original));
+
+        // ========================================
+        // Interactive Accept/Reject Functionality
+        // ========================================
+
+        const STORAGE_KEY = 'update-preview-decisions-{{SLUG}}';
+
+        // Load decisions from localStorage
+        function loadDecisions() {
+            try {
+                return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            } catch (e) {
+                return {};
+            }
+        }
+
+        // Save a decision to localStorage
+        function saveDecision(changeId, decision) {
+            const decisions = loadDecisions();
+            if (decision === null) {
+                delete decisions[changeId];
+            } else {
+                decisions[changeId] = decision;
+            }
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(decisions));
+            updateUI();
+        }
+
+        // Update all UI elements based on current decisions
+        function updateUI() {
+            const decisions = loadDecisions();
+            const cards = document.querySelectorAll('.change-item');
+            let accepted = 0, rejected = 0, pending = 0;
+
+            cards.forEach(card => {
+                const id = card.dataset.changeId;
+                const decision = decisions[id];
+                const acceptBtn = card.querySelector('.btn-accept');
+                const rejectBtn = card.querySelector('.btn-reject');
+
+                // Reset state
+                card.classList.remove('accepted', 'rejected');
+                acceptBtn.disabled = false;
+                rejectBtn.disabled = false;
+
+                if (decision === 'accepted') {
+                    card.classList.add('accepted');
+                    acceptBtn.disabled = true;
+                    rejectBtn.disabled = true;
+                    accepted++;
+                } else if (decision === 'rejected') {
+                    card.classList.add('rejected');
+                    acceptBtn.disabled = true;
+                    rejectBtn.disabled = true;
+                    rejected++;
+                } else {
+                    pending++;
+                }
+            });
+
+            // Update progress counts
+            document.querySelector('.count-accepted').textContent = `${accepted} accepted`;
+            document.querySelector('.count-rejected').textContent = `${rejected} rejected`;
+            document.querySelector('.count-pending').textContent = `${pending} pending`;
+
+            // Update progress bar
+            const total = cards.length;
+            const acceptedWidth = (accepted / total) * 100;
+            const rejectedWidth = (rejected / total) * 100;
+            document.querySelector('.accepted-fill').style.width = `${acceptedWidth}%`;
+            document.querySelector('.rejected-fill').style.width = `${rejectedWidth}%`;
+
+            // Enable/disable export button
+            const exportBtn = document.querySelector('.btn-export');
+            exportBtn.disabled = pending > 0;
+        }
+
+        // Set up button click handlers
+        document.querySelectorAll('.change-item').forEach(card => {
+            const acceptBtn = card.querySelector('.btn-accept');
+            const rejectBtn = card.querySelector('.btn-reject');
+            const resetBtn = card.querySelector('.btn-reset');
+            const changeId = card.dataset.changeId;
+
+            acceptBtn.addEventListener('click', () => {
+                saveDecision(changeId, 'accepted');
+            });
+
+            rejectBtn.addEventListener('click', () => {
+                saveDecision(changeId, 'rejected');
+            });
+
+            resetBtn.addEventListener('click', () => {
+                saveDecision(changeId, null);
+            });
+        });
+
+        // Export decisions to markdown file
+        function exportDecisions() {
+            const decisions = loadDecisions();
+            const accepted = [];
+            const rejected = [];
+
+            document.querySelectorAll('.change-item').forEach(card => {
+                const id = card.dataset.changeId;
+                const data = {
+                    type: card.dataset.changeType || 'UNKNOWN',
+                    title: card.querySelector('.change-title')?.textContent || '',
+                    original: card.querySelector('.original-text')?.textContent || '',
+                    replacement: card.querySelector('.replacement-text')?.textContent || '',
+                    reason: card.querySelector('.change-reason')?.textContent || ''
+                };
+
+                if (decisions[id] === 'accepted') {
+                    accepted.push(data);
+                } else if (decisions[id] === 'rejected') {
+                    rejected.push(data);
+                }
+            });
+
+            const markdown = generateMarkdown(accepted, rejected);
+            downloadFile('{{SLUG}}-update-plan.md', markdown);
+        }
+
+        function generateMarkdown(accepted, rejected) {
+            const date = new Date().toISOString().split('T')[0];
+            let md = `# Update Plan: {{SLUG}}
+
+Generated: ${date}
+Source: /update-pipeline/5-update-preview/{{SLUG}}.html
+
+`;
+
+            if (accepted.length > 0) {
+                md += `## Accepted Changes (${accepted.length})\n\n`;
+                accepted.forEach((change, i) => {
+                    md += `### ${i + 1}. ${change.title}\n`;
+                    md += `**Type:** ${change.type}\n`;
+                    if (change.original) {
+                        md += `**Original:** ${change.original.replace(/^- /, '')}\n`;
+                    }
+                    if (change.replacement) {
+                        md += `**Replacement:** ${change.replacement.replace(/^\+ /, '')}\n`;
+                    }
+                    if (change.reason) {
+                        md += `**Reason:** ${change.reason}\n`;
+                    }
+                    md += '\n';
+                });
+            }
+
+            if (rejected.length > 0) {
+                md += `## Rejected Changes (${rejected.length})\n\n`;
+                rejected.forEach((change, i) => {
+                    md += `### ${i + 1}. ${change.title}\n`;
+                    md += `**Type:** ${change.type}\n`;
+                    md += `**Reason for rejection:** [Add your reason]\n\n`;
+                });
+            }
+
+            return md;
+        }
+
+        function downloadFile(filename, content) {
+            const blob = new Blob([content], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Set up export button
+        document.querySelector('.btn-export').addEventListener('click', exportDecisions);
+
+        // Initialize UI on page load
+        updateUI();
     </script>
 </body>
 </html>
@@ -451,18 +786,45 @@ For each change from the audits:
 Create summary items for each change:
 
 ```html
-<div class="change-item">
+<div class="change-item" data-change-id="claims-1" data-change-type="UPDATE_STAT">
     <span class="change-type type-claim">CLAIM</span>
     <div class="change-details">
-        <strong>Pinterest user count outdated</strong>
-        <span class="reason">Updated from 450M to 498M based on Q4 2025 earnings</span>
+        <strong class="change-title">Pinterest user count outdated</strong>
+        <div class="change-content">
+            <div class="original-text">Pinterest has over 450 million monthly active users</div>
+            <div class="replacement-text">Pinterest has over 498 million monthly active users</div>
+        </div>
+        <span class="change-reason">Updated from 450M to 498M based on Q4 2025 earnings</span>
     </div>
     <div class="change-actions">
         <button class="btn-accept">Accept</button>
         <button class="btn-reject">Reject</button>
+        <button class="btn-reset">Reset</button>
     </div>
 </div>
 ```
+
+**Change ID Format:**
+- Claims: `claims-1`, `claims-2`, etc.
+- Ahrefs mentions: `ahrefs-1`, `ahrefs-2`, etc.
+- Topic gaps: `topics-1`, `topics-2`, etc.
+
+---
+
+## Template Placeholders
+
+When generating the HTML, replace these placeholders:
+
+| Placeholder | Value |
+|-------------|-------|
+| `{{TITLE}}` | Article title from extracted content |
+| `{{SLUG}}` | Kebab-case slug (e.g., `programmatic-seo`) |
+| `{{ORIGINAL_DATE}}` | Last-Modified date from extracted content |
+| `{{PREVIEW_DATE}}` | Current date (YYYY-MM-DD) |
+| `{{TOTAL_CHANGES}}` | Count of all changes from audits |
+| `{{ORIGINAL_CONTENT}}` | HTML-converted original content |
+| `{{UPDATED_CONTENT}}` | HTML with diff highlighting applied |
+| `{{CHANGE_LIST}}` | Generated change-item cards |
 
 ---
 
@@ -509,10 +871,51 @@ Both panels scroll together, keeping the same relative position so you can compa
 | New section | — | Green-bordered block |
 | Content removal | Yellow highlight | Red strikethrough |
 
-### Interactive Summary
-- Each change listed with type badge
-- Click to jump to location
-- Accept/Reject buttons (visual review aid)
+### Interactive Accept/Reject
+
+Each change card supports:
+- **Accept button:** Mark change for inclusion (green left border, checkmark)
+- **Reject button:** Mark change for exclusion (red left border, strikethrough)
+- **Reset button:** Clear decision and return to pending state
+
+Decisions persist via localStorage (`update-preview-decisions-[slug]`) so you can:
+- Review changes across multiple sessions
+- Refresh the page without losing progress
+- Come back later to finish reviewing
+
+### Progress Tracking
+
+Sticky header shows:
+- Count of accepted, rejected, and pending changes
+- Progress bar with green (accepted) and red (rejected) fills
+- Export button (enabled only when all changes reviewed)
+
+### Export Update Plan
+
+When all changes are reviewed, click "Download Update Plan" to generate a markdown file:
+
+```markdown
+# Update Plan: programmatic-seo
+
+Generated: 2026-03-03
+Source: /update-pipeline/5-update-preview/programmatic-seo.html
+
+## Accepted Changes (3)
+
+### 1. Zapier stats (4x growth)
+**Type:** UPDATE_STAT
+**Original:** "800,632 pages" and "306,000 monthly traffic"
+**Replacement:** "21,867 pages" and "1,270,496 monthly traffic"
+**Reason:** Updated to current Ahrefs data
+
+## Rejected Changes (1)
+
+### 1. Nomadlist example removal
+**Type:** UPDATE_STAT
+**Reason for rejection:** [Add your reason]
+```
+
+This file can be used as input for a future `/update-draft` skill.
 
 ---
 
@@ -535,3 +938,8 @@ If an audit file doesn't exist, skip it gracefully:
 | Scroll sync | Panels scroll together |
 | Change count | Header shows correct total |
 | Opens in browser | Auto-opens after generation |
+| Accept/Reject | Buttons update card state and progress |
+| Persistence | Decisions survive page refresh (localStorage) |
+| Progress bar | Fills as changes are reviewed |
+| Export enabled | Button activates when 0 pending |
+| Export output | Downloads valid markdown file |
